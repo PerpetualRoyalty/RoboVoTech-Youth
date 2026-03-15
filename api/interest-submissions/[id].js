@@ -1,4 +1,5 @@
 const {
+  handleDeleteSubmission,
   handleUpdateSubmission,
   sendJson,
   sendNoContent
@@ -11,13 +12,20 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if (req.method !== 'PATCH') {
-      sendJson(res, 405, { ok: false, error: 'Method not allowed.' });
+    const submissionId = req.query && req.query.id;
+    const normalizedId = Array.isArray(submissionId) ? submissionId[0] : submissionId;
+
+    if (req.method === 'PATCH') {
+      await handleUpdateSubmission(req, res, normalizedId);
       return;
     }
 
-    const submissionId = req.query && req.query.id;
-    await handleUpdateSubmission(req, res, Array.isArray(submissionId) ? submissionId[0] : submissionId);
+    if (req.method === 'DELETE') {
+      await handleDeleteSubmission(req, res, normalizedId);
+      return;
+    }
+
+    sendJson(res, 405, { ok: false, error: 'Method not allowed.' });
   } catch (error) {
     sendJson(res, 500, { ok: false, error: 'Unexpected server error.' });
   }

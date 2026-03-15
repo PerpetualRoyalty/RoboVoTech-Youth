@@ -97,7 +97,7 @@
 
     .control-grid {
       display: grid;
-      grid-template-columns: 1.7fr 1fr 1fr auto auto;
+      grid-template-columns: 1.6fr 1fr 1fr 1.2fr auto auto;
       gap: 12px;
       align-items: end;
     }
@@ -158,6 +158,12 @@
       background: rgba(148, 163, 184, 0.12);
       color: var(--text);
       border: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .btn-danger {
+      background: rgba(244, 63, 94, 0.14);
+      color: #fecdd3;
+      border: 1px solid rgba(244, 63, 94, 0.28);
     }
 
     .metrics {
@@ -396,6 +402,14 @@
             <input id="apiKey" type="password" placeholder="Enter the same ADMIN_API_KEY used on the server">
           </div>
           <div>
+            <label for="visibilityFilter">Queue View</label>
+            <select id="visibilityFilter">
+              <option value="active">Active leads</option>
+              <option value="archived">Archived leads</option>
+              <option value="all">All leads</option>
+            </select>
+          </div>
+          <div>
             <label for="statusFilter">Status Filter</label>
             <select id="statusFilter">
               <option value="all">All statuses</option>
@@ -448,6 +462,7 @@
     };
 
     const apiKeyInput = document.getElementById('apiKey');
+    const visibilityFilter = document.getElementById('visibilityFilter');
     const statusFilter = document.getElementById('statusFilter');
     const searchInput = document.getElementById('searchInput');
     const refreshBtn = document.getElementById('refreshBtn');
@@ -472,6 +487,7 @@
       loadSubmissions();
     });
 
+    visibilityFilter.addEventListener('change', loadSubmissions);
     statusFilter.addEventListener('change', loadSubmissions);
     refreshBtn.addEventListener('click', loadSubmissions);
     exportBtn.addEventListener('click', exportCsv);
@@ -514,13 +530,13 @@
     }
 
     function renderMetrics() {
-      const summary = state.summary || { total: 0, byStatus: {}, followUpDue: 0, wioaInterested: 0, virtualPreferred: 0 };
+      const summary = state.summary || { total: 0, active: 0, archived: 0, byStatus: {}, followUpDue: 0, wioaInterested: 0, virtualPreferred: 0 };
       const cards = [
-        ['Total leads', summary.total, 'All captured submissions'],
+        ['Active leads', summary.active || 0, 'Current working queue'],
+        ['Archived', summary.archived || 0, 'Out of active rotation'],
         ['New', summary.byStatus && summary.byStatus.new || 0, 'Need first outreach'],
         ['Qualified', summary.byStatus && summary.byStatus.qualified || 0, 'Strong-fit applicants'],
-        ['Follow-up due', summary.followUpDue || 0, 'Action needed today'],
-        ['WIOA interested', summary.wioaInterested || 0, 'Funding conversations']
+        ['Follow-up due', summary.followUpDue || 0, 'Action needed today']
       ];
 
       metrics.innerHTML = cards.map((card) => `
@@ -533,7 +549,8 @@
     }
 
     function renderList() {
-      leadCount.textContent = `${state.submissions.length} ${state.submissions.length === 1 ? 'lead' : 'leads'}`;
+      const label = visibilityFilter.value === 'archived' ? 'archived' : 'lead';
+      leadCount.textContent = `${state.submissions.length} ${state.submissions.length === 1 ? label : `${label}s`}`;
 
       if (!state.submissions.length) {
         leadList.innerHTML = '<div class="empty">No submissions match the current filter.</div>';
@@ -558,6 +575,7 @@
             <span>${escapeHtml(submission.age || 'Age not set')}</span>
             <span>${escapeHtml(formatDateTime(submission.submittedAt))}</span>
           </div>
+          ${submission.archivedAt ? `<div class="lead-meta" style="margin-top:6px;">Archived ${escapeHtml(formatDateTime(submission.archivedAt))}</div>` : ''}
           <div class="lead-meta" style="margin-top:10px;">${escapeHtml(truncate(submission.interest || 'No interest note provided.', 88))}</div>
         </article>
       `).join('');
@@ -589,6 +607,7 @@
         <div>
           <h3 style="margin:0 0 6px;font-size:1.45rem;">${escapeHtml(`${submission.firstName} ${submission.lastName}`)}</h3>
           <div class="lead-meta">Submitted ${escapeHtml(formatDateTime(submission.submittedAt))}</div>
+          ${submission.archivedAt ? `<div class="lead-meta">Archived ${escapeHtml(formatDateTime(submission.archivedAt))}</div>` : ''}
         </div>
 
         <div class="detail-grid">
@@ -646,6 +665,8 @@
             <button class="btn-primary" type="submit">Save Changes</button>
             <button class="btn-secondary" type="button" id="copyEmailBtn">Copy Email</button>
             <button class="btn-secondary" type="button" id="emailLeadBtn">Open Email Draft</button>
+            <button class="btn-secondary" type="button" id="archiveLeadBtn">${submission.archivedAt ? 'Restore Lead' : 'Archive Lead'}</button>
+            <button class="btn-danger" type="button" id="deleteLeadBtn">Delete Permanently</button>
           </div>
           <div id="detailMessage" class="message"></div>
         </form>
@@ -656,6 +677,8 @@
       document.getElementById('emailLeadBtn').addEventListener('click', () => {
         window.location.href = `mailto:${encodeURIComponent(submission.email)}`;
       });
+      document.getElementById('archiveLeadBtn').addEventListener('click', () => toggleArchiveSelectedLead(!submission.archivedAt));
+      document.getElementById('deleteLeadBtn').addEventListener('click', deleteSelectedLead);
     }
 
     async function loadSubmissions() {
@@ -671,6 +694,7 @@
       setMessage('');
 
       const params = new URLSearchParams();
+      params.set('archived', visibilityFilter.value || 'active');
       if (statusFilter.value && statusFilter.value !== 'all') {
         params.set('status', statusFilter.value);
       }
@@ -738,15 +762,78 @@
         }
 
         state.summary = result.summary || state.summary;
-        state.submissions = state.submissions.map((entry) =>
-          entry.id === submission.id ? result.submission : entry
-        );
+        await loadSubmissions();
+        state.selectedId = submission.id;
         setMessage('Lead updated.', 'success');
-        renderMetrics();
-        renderList();
       } catch (error) {
         detailMessage.textContent = error.message || 'Could not save the lead.';
         detailMessage.className = 'message error';
+      }
+    }
+
+    async function toggleArchiveSelectedLead(archived) {
+      const submission = state.submissions.find((entry) => entry.id === state.selectedId);
+      if (!submission) {
+        return;
+      }
+
+      const actionLabel = archived ? 'archive' : 'restore';
+      if (!window.confirm(`Are you sure you want to ${actionLabel} this lead?`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/interest-submissions/${submission.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': state.apiKey
+          },
+          body: JSON.stringify({ archived })
+        });
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || `Could not ${actionLabel} the lead.`);
+        }
+
+        state.summary = result.summary || state.summary;
+        state.selectedId = null;
+        await loadSubmissions();
+        setMessage(archived ? 'Lead archived.' : 'Lead restored.', 'success');
+      } catch (error) {
+        setMessage(error.message || `Could not ${actionLabel} the lead.`, 'error');
+      }
+    }
+
+    async function deleteSelectedLead() {
+      const submission = state.submissions.find((entry) => entry.id === state.selectedId);
+      if (!submission) {
+        return;
+      }
+
+      const confirmed = window.confirm(`Delete ${submission.firstName} ${submission.lastName} permanently? This cannot be undone.`);
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/interest-submissions/${submission.id}`, {
+          method: 'DELETE',
+          headers: authHeaders()
+        });
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Could not delete the lead.');
+        }
+
+        state.summary = result.summary || state.summary;
+        state.selectedId = null;
+        await loadSubmissions();
+        setMessage('Lead deleted permanently.', 'success');
+      } catch (error) {
+        setMessage(error.message || 'Could not delete the lead.', 'error');
       }
     }
 

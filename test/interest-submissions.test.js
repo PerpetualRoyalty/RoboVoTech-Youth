@@ -5,6 +5,7 @@ const {
   createSubmissionRecord,
   filterSubmissions,
   findRecentDuplicate,
+  removeSubmission,
   submissionsToCsv,
   summarizeSubmissions,
   validateSubmission,
@@ -82,6 +83,7 @@ runTest('summarizeSubmissions aggregates lead preferences', () => {
     {
       age: '18-24',
       background: 'student',
+      archivedAt: '',
       submittedAt: '2026-03-10T00:00:00.000Z',
       status: 'new',
       followUpDate: '2026-03-09',
@@ -90,6 +92,7 @@ runTest('summarizeSubmissions aggregates lead preferences', () => {
     },
     {
       age: '18-24',
+      archivedAt: '2026-03-12T00:00:00.000Z',
       background: '',
       submittedAt: '2026-03-11T00:00:00.000Z',
       status: 'qualified',
@@ -99,6 +102,8 @@ runTest('summarizeSubmissions aggregates lead preferences', () => {
   ]);
 
   assert.equal(summary.total, 2);
+  assert.equal(summary.active, 1);
+  assert.equal(summary.archived, 1);
   assert.equal(summary.wioaInterested, 1);
   assert.equal(summary.virtualPreferred, 1);
   assert.equal(summary.byAge['18-24'], 2);
@@ -124,6 +129,17 @@ runTest('validateSubmissionUpdate accepts valid admin updates', () => {
   });
 });
 
+runTest('validateSubmissionUpdate accepts archive toggles', () => {
+  const result = validateSubmissionUpdate({
+    archived: true
+  });
+
+  assert.equal(result.valid, true);
+  assert.deepEqual(result.updates, {
+    archived: true
+  });
+});
+
 runTest('validateSubmissionUpdate rejects invalid admin updates', () => {
   const result = validateSubmissionUpdate({
     status: 'pending',
@@ -140,6 +156,7 @@ runTest('validateSubmissionUpdate rejects invalid admin updates', () => {
 runTest('applySubmissionUpdate merges updates and timestamps the record', () => {
   const before = {
     id: 'abc',
+    archivedAt: '',
     status: 'new',
     notes: '',
     followUpDate: '',
@@ -158,10 +175,29 @@ runTest('applySubmissionUpdate merges updates and timestamps the record', () => 
   assert.notEqual(after.updatedAt, before.updatedAt);
 });
 
+runTest('applySubmissionUpdate archives and restores records', () => {
+  const archived = applySubmissionUpdate({
+    id: 'abc',
+    archivedAt: '',
+    updatedAt: '2026-03-01T00:00:00.000Z'
+  }, {
+    archived: true
+  });
+
+  assert.ok(archived.archivedAt);
+
+  const restored = applySubmissionUpdate(archived, {
+    archived: false
+  });
+
+  assert.equal(restored.archivedAt, '');
+});
+
 runTest('filterSubmissions searches name, email, and notes', () => {
   const filtered = filterSubmissions([
     {
       id: '1',
+      archivedAt: '',
       firstName: 'Jordan',
       lastName: 'Rivera',
       email: 'jordan@example.com',
@@ -172,6 +208,7 @@ runTest('filterSubmissions searches name, email, and notes', () => {
     },
     {
       id: '2',
+      archivedAt: '',
       firstName: 'Taylor',
       lastName: 'Nguyen',
       email: 'taylor@example.com',
@@ -187,6 +224,35 @@ runTest('filterSubmissions searches name, email, and notes', () => {
 
   assert.equal(filtered.length, 1);
   assert.equal(filtered[0].id, '1');
+});
+
+runTest('filterSubmissions defaults to active leads only', () => {
+  const filtered = filterSubmissions([
+    { id: '1', archivedAt: '', status: 'new' },
+    { id: '2', archivedAt: '2026-03-12T00:00:00.000Z', status: 'closed' }
+  ], {});
+
+  assert.equal(filtered.length, 1);
+  assert.equal(filtered[0].id, '1');
+});
+
+runTest('filterSubmissions can return archived leads', () => {
+  const filtered = filterSubmissions([
+    { id: '1', archivedAt: '', status: 'new' },
+    { id: '2', archivedAt: '2026-03-12T00:00:00.000Z', status: 'closed' }
+  ], { archived: 'archived' });
+
+  assert.equal(filtered.length, 1);
+  assert.equal(filtered[0].id, '2');
+});
+
+runTest('removeSubmission deletes one lead by id', () => {
+  const remaining = removeSubmission([
+    { id: '1' },
+    { id: '2' }
+  ], '1');
+
+  assert.deepEqual(remaining, [{ id: '2' }]);
 });
 
 runTest('submissionsToCsv includes expected columns', () => {

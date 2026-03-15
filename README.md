@@ -40,7 +40,9 @@ The dashboard lets you:
 
 - Search across name, email, phone, interest, and notes
 - Filter the lead queue by pipeline status
+- Switch between active, archived, or all leads
 - Update status, follow-up date, and internal notes
+- Archive, restore, or permanently delete leads
 - Export the full lead list as CSV
 
 If you want to call the API directly:

@@ -4,6 +4,7 @@ const path = require('path');
 const {
   getRequestUrl,
   handleCreateSubmission,
+  handleDeleteSubmission,
   handleExportSubmissions,
   handleHealth,
   handleListSubmissions,
@@ -79,6 +80,11 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'PATCH' && submissionMatch) {
       await handleUpdateSubmission(req, res, submissionMatch[1]);
+      return;
+    }
+
+    if (req.method === 'DELETE' && submissionMatch) {
+      await handleDeleteSubmission(req, res, submissionMatch[1]);
       return;
     }
 
