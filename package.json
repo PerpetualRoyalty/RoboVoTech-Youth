@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "description": "Landing page and lightweight backend for RoboVoTech youth interest capture.",
+  "dependencies": {
+    "@vercel/blob": "^1.1.1"
+  },
   "scripts": {
     "start": "node server.js",
     "test": "node test/interest-submissions.test.js"
   },
   "engines": {
-    "node": ">=14.17"
+    "node": "24.x"
   }
 }
