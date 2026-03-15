@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoboVoTech Admin</title>
+  <meta name="description" content="Admin dashboard for RoboVoTech interest submissions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f172a;
+      --navy-light: #172033;
+      --panel: #111827;
+      --panel-soft: #172554;
+      --border: rgba(148, 163, 184, 0.18);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --blue: #2563eb;
+      --cyan: #06b6d4;
+      --orange: #f97316;
+      --amber: #f59e0b;
+      --lime: #84cc16;
+      --rose: #fb7185;
+      --radius: 18px;
+      --shadow: 0 20px 45px rgba(2, 6, 23, 0.32);
+      --font-main: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-main);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.12), transparent 28%),
+        linear-gradient(180deg, #08101f 0%, #0f172a 100%);
+      min-height: 100vh;
+    }
+
+    .shell {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1.4fr 2fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero {
+      padding: 24px;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+    }
+
+    .hero p,
+    .helper {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .controls {
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr auto auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 14px;
+      color: var(--text);
+      padding: 12px 14px;
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: rgba(6, 182, 212, 0.9);
+      box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.12);
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange), #ea580c);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      padding: 18px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.9rem;
+      margin-top: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(360px, 0.95fr) minmax(380px, 1.25fr);
+      gap: 18px;
+    }
+
+    .list-panel,
+    .detail-panel {
+      min-height: 660px;
+    }
+
+    .list-head,
+    .detail-head {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .list-head h2,
+    .detail-head h2 {
+      margin: 0;
+      font-size: 1.08rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.14);
+      color: #bfdbfe;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .lead-list {
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      max-height: 590px;
+      overflow: auto;
+    }
+
+    .lead-card {
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.6);
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+
+    .lead-card:hover,
+    .lead-card.active {
+      transform: translateY(-1px);
+      border-color: rgba(6, 182, 212, 0.5);
+    }
+
+    .lead-card h3 {
+      margin: 0 0 2px;
+      font-size: 1rem;
+    }
+
+    .lead-meta,
+    .lead-secondary,
+    .detail-grid small {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .lead-secondary {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .status-new { background: rgba(6, 182, 212, 0.15); color: #67e8f9; }
+    .status-contacted { background: rgba(37, 99, 235, 0.15); color: #93c5fd; }
+    .status-qualified { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
+    .status-enrolled { background: rgba(132, 204, 22, 0.15); color: #bef264; }
+    .status-closed { background: rgba(251, 113, 133, 0.15); color: #fda4af; }
+
+    .detail-body {
+      padding: 20px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .detail-grid a {
+      color: #bfdbfe;
+      text-decoration: none;
+    }
+
+    .detail-grid strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.84rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .detail-value {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .detail-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .detail-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .message {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--muted);
+      display: none;
+    }
+
+    .message.error {
+      display: block;
+      color: #fecdd3;
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.28);
+    }
+
+    .message.success {
+      display: block;
+      color: #d9f99d;
+      background: rgba(132, 204, 22, 0.12);
+      border: 1px solid rgba(132, 204, 22, 0.28);
+    }
+
+    .empty {
+      padding: 28px 20px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1120px) {
+      .topbar,
+      .workspace,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .control-grid,
+      .detail-form-grid,
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <section class="panel hero">
+        <div class="eyebrow">RoboVoTech Admin</div>
+        <h1>Lead Intake, Follow-Up, and Enrollment Tracking</h1>
+        <p>Use this dashboard to review interest submissions, search by contact details, and move each lead from new inquiry to enrolled or closed without leaving the app.</p>
+      </section>
+
+      <section class="panel controls">
+        <div class="control-grid">
+          <div>
+            <label for="apiKey">Admin API Key</label>
+            <input id="apiKey" type="password" placeholder="Enter the same ADMIN_API_KEY used on the server">
+          </div>
+          <div>
+            <label for="statusFilter">Status Filter</label>
+            <select id="statusFilter">
+              <option value="all">All statuses</option>
+            </select>
+          </div>
+          <div>
+            <label for="searchInput">Search Leads</label>
+            <input id="searchInput" type="search" placeholder="Name, email, phone, interest, notes">
+          </div>
+          <button class="btn-secondary" id="refreshBtn" type="button">Refresh</button>
+          <button class="btn-primary" id="exportBtn" type="button">Export CSV</button>
+        </div>
+        <p class="helper">The API key is stored locally in your browser for convenience. It is sent only as the `x-admin-key` request header to this server.</p>
+        <div id="pageMessage" class="message"></div>
+      </section>
+    </div>
+
+    <section class="metrics" id="metrics"></section>
+
+    <div class="workspace">
+      <section class="panel list-panel">
+        <div class="list-head">
+          <h2>Lead Queue</h2>
+          <span id="leadCount" class="pill">0 leads</span>
+        </div>
+        <div id="leadList" class="lead-list"></div>
+      </section>
+
+      <section class="panel detail-panel">
+        <div class="detail-head">
+          <h2>Lead Detail</h2>
+          <span id="detailStatus" class="status status-new">new</span>
+        </div>
+        <div id="detailBody" class="detail-body">
+          <div class="empty">Select a lead to view contact details, follow-up timing, and internal notes.</div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'robovotech-admin-key';
+    const fallbackStatuses = ['new', 'contacted', 'qualified', 'enrolled', 'closed'];
+    const state = {
+      apiKey: localStorage.getItem(STORAGE_KEY) || '',
+      statuses: fallbackStatuses.slice(),
+      submissions: [],
+      selectedId: null,
+      summary: null
+    };
+
+    const apiKeyInput = document.getElementById('apiKey');
+    const statusFilter = document.getElementById('statusFilter');
+    const searchInput = document.getElementById('searchInput');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const pageMessage = document.getElementById('pageMessage');
+    const metrics = document.getElementById('metrics');
+    const leadCount = document.getElementById('leadCount');
+    const leadList = document.getElementById('leadList');
+    const detailBody = document.getElementById('detailBody');
+    const detailStatus = document.getElementById('detailStatus');
+
+    apiKeyInput.value = state.apiKey;
+    renderStatusOptions(state.statuses);
+    renderMetrics();
+    renderList();
+
+    let searchTimer = null;
+
+    apiKeyInput.addEventListener('change', () => {
+      state.apiKey = apiKeyInput.value.trim();
+      localStorage.setItem(STORAGE_KEY, state.apiKey);
+      loadSubmissions();
+    });
+
+    statusFilter.addEventListener('change', loadSubmissions);
+    refreshBtn.addEventListener('click', loadSubmissions);
+    exportBtn.addEventListener('click', exportCsv);
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(loadSubmissions, 250);
+    });
+
+    loadSubmissions();
+
+    function setMessage(text, type) {
+      pageMessage.textContent = text;
+      pageMessage.className = 'message';
+
+      if (!text) {
+        return;
+      }
+
+      pageMessage.classList.add(type || 'success');
+    }
+
+    function authHeaders() {
+      return {
+        'x-admin-key': state.apiKey
+      };
+    }
+
+    function renderStatusOptions(statuses) {
+      const current = statusFilter.value || 'all';
+      statusFilter.innerHTML = '<option value="all">All statuses</option>';
+
+      statuses.forEach((status) => {
+        const option = document.createElement('option');
+        option.value = status;
+        option.textContent = titleCase(status);
+        statusFilter.appendChild(option);
+      });
+
+      statusFilter.value = statuses.includes(current) || current === 'all' ? current : 'all';
+    }
+
+    function renderMetrics() {
+      const summary = state.summary || { total: 0, byStatus: {}, followUpDue: 0, wioaInterested: 0, virtualPreferred: 0 };
+      const cards = [
+        ['Total leads', summary.total, 'All captured submissions'],
+        ['New', summary.byStatus && summary.byStatus.new || 0, 'Need first outreach'],
+        ['Qualified', summary.byStatus && summary.byStatus.qualified || 0, 'Strong-fit applicants'],
+        ['Follow-up due', summary.followUpDue || 0, 'Action needed today'],
+        ['WIOA interested', summary.wioaInterested || 0, 'Funding conversations']
+      ];
+
+      metrics.innerHTML = cards.map((card) => `
+        <article class="panel metric">
+          <span>${card[0]}</span>
+          <strong>${card[1]}</strong>
+          <div class="helper">${card[2]}</div>
+        </article>
+      `).join('');
+    }
+
+    function renderList() {
+      leadCount.textContent = `${state.submissions.length} ${state.submissions.length === 1 ? 'lead' : 'leads'}`;
+
+      if (!state.submissions.length) {
+        leadList.innerHTML = '<div class="empty">No submissions match the current filter.</div>';
+        renderDetail();
+        return;
+      }
+
+      if (!state.selectedId || !state.submissions.some((submission) => submission.id === state.selectedId)) {
+        state.selectedId = state.submissions[0].id;
+      }
+
+      leadList.innerHTML = state.submissions.map((submission) => `
+        <article class="lead-card ${submission.id === state.selectedId ? 'active' : ''}" data-id="${submission.id}">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+            <div>
+              <h3>${escapeHtml(`${submission.firstName} ${submission.lastName}`)}</h3>
+              <div class="lead-meta">${escapeHtml(submission.email)}</div>
+            </div>
+            <span class="status status-${submission.status}">${escapeHtml(submission.status)}</span>
+          </div>
+          <div class="lead-secondary">
+            <span>${escapeHtml(submission.age || 'Age not set')}</span>
+            <span>${escapeHtml(formatDateTime(submission.submittedAt))}</span>
+          </div>
+          <div class="lead-meta" style="margin-top:10px;">${escapeHtml(truncate(submission.interest || 'No interest note provided.', 88))}</div>
+        </article>
+      `).join('');
+
+      leadList.querySelectorAll('.lead-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          state.selectedId = card.dataset.id;
+          renderList();
+        });
+      });
+
+      renderDetail();
+    }
+
+    function renderDetail() {
+      const submission = state.submissions.find((entry) => entry.id === state.selectedId);
+
+      if (!submission) {
+        detailStatus.textContent = 'new';
+        detailStatus.className = 'status status-new';
+        detailBody.innerHTML = '<div class="empty">Select a lead to view contact details, follow-up timing, and internal notes.</div>';
+        return;
+      }
+
+      detailStatus.textContent = submission.status;
+      detailStatus.className = `status status-${submission.status}`;
+
+      detailBody.innerHTML = `
+        <div>
+          <h3 style="margin:0 0 6px;font-size:1.45rem;">${escapeHtml(`${submission.firstName} ${submission.lastName}`)}</h3>
+          <div class="lead-meta">Submitted ${escapeHtml(formatDateTime(submission.submittedAt))}</div>
+        </div>
+
+        <div class="detail-grid">
+          <div>
+            <strong>Email</strong>
+            <div class="detail-value"><a href="mailto:${encodeURIComponent(submission.email)}">${escapeHtml(submission.email)}</a></div>
+          </div>
+          <div>
+            <strong>Phone</strong>
+            <div class="detail-value">${submission.phone ? `<a href="tel:${escapeAttribute(submission.phone)}">${escapeHtml(submission.phone)}</a>` : 'Not provided'}</div>
+          </div>
+          <div>
+            <strong>Age Group</strong>
+            <div class="detail-value">${escapeHtml(submission.age || 'Not provided')}</div>
+          </div>
+          <div>
+            <strong>Current Situation</strong>
+            <div class="detail-value">${escapeHtml(titleCase(submission.background || 'unspecified'))}</div>
+          </div>
+          <div>
+            <strong>Funding Interest</strong>
+            <div class="detail-value">${submission.wioa ? 'Interested in WIOA' : 'No WIOA flag'}</div>
+          </div>
+          <div>
+            <strong>Delivery Preference</strong>
+            <div class="detail-value">${submission.virtual ? 'Prefers virtual option' : 'Open to in-person format'}</div>
+          </div>
+        </div>
+
+        <div>
+          <strong style="display:block;margin-bottom:6px;color:var(--muted);font-size:0.84rem;text-transform:uppercase;letter-spacing:0.08em;">What excites them about robotics</strong>
+          <div class="detail-value">${escapeHtml(submission.interest || 'No freeform interest note provided.')}</div>
+        </div>
+
+        <form id="detailForm" class="detail-form">
+          <div class="detail-form-grid">
+            <div>
+              <label for="detailStatusSelect">Pipeline Status</label>
+              <select id="detailStatusSelect">${state.statuses.map((status) => `
+                <option value="${status}" ${status === submission.status ? 'selected' : ''}>${titleCase(status)}</option>
+              `).join('')}</select>
+            </div>
+            <div>
+              <label for="detailFollowUpDate">Follow-Up Date</label>
+              <input id="detailFollowUpDate" type="date" value="${escapeAttribute(submission.followUpDate || '')}">
+            </div>
+          </div>
+
+          <div>
+            <label for="detailNotes">Internal Notes</label>
+            <textarea id="detailNotes" placeholder="Call notes, scheduling updates, scholarship questions, next actions...">${escapeHtml(submission.notes || '')}</textarea>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary" type="submit">Save Changes</button>
+            <button class="btn-secondary" type="button" id="copyEmailBtn">Copy Email</button>
+            <button class="btn-secondary" type="button" id="emailLeadBtn">Open Email Draft</button>
+          </div>
+          <div id="detailMessage" class="message"></div>
+        </form>
+      `;
+
+      document.getElementById('detailForm').addEventListener('submit', saveSelectedLead);
+      document.getElementById('copyEmailBtn').addEventListener('click', () => copyToClipboard(submission.email));
+      document.getElementById('emailLeadBtn').addEventListener('click', () => {
+        window.location.href = `mailto:${encodeURIComponent(submission.email)}`;
+      });
+    }
+
+    async function loadSubmissions() {
+      if (!state.apiKey) {
+        setMessage('Enter the admin API key to load submissions.', 'error');
+        state.submissions = [];
+        state.summary = null;
+        renderMetrics();
+        renderList();
+        return;
+      }
+
+      setMessage('');
+
+      const params = new URLSearchParams();
+      if (statusFilter.value && statusFilter.value !== 'all') {
+        params.set('status', statusFilter.value);
+      }
+      if (searchInput.value.trim()) {
+        params.set('search', searchInput.value.trim());
+      }
+      params.set('limit', '250');
+
+      try {
+        const response = await fetch(`/api/interest-submissions?${params.toString()}`, {
+          headers: authHeaders()
+        });
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Could not load submissions.');
+        }
+
+        state.statuses = result.statuses || fallbackStatuses.slice();
+        state.summary = result.summary;
+        state.submissions = result.submissions || [];
+        renderStatusOptions(state.statuses);
+        renderMetrics();
+        renderList();
+      } catch (error) {
+        state.submissions = [];
+        state.summary = null;
+        renderMetrics();
+        renderList();
+        setMessage(error.message || 'Could not load submissions.', 'error');
+      }
+    }
+
+    async function saveSelectedLead(event) {
+      event.preventDefault();
+
+      const submission = state.submissions.find((entry) => entry.id === state.selectedId);
+      if (!submission) {
+        return;
+      }
+
+      const detailMessage = document.getElementById('detailMessage');
+      detailMessage.className = 'message';
+      detailMessage.textContent = '';
+
+      const payload = {
+        status: document.getElementById('detailStatusSelect').value,
+        followUpDate: document.getElementById('detailFollowUpDate').value,
+        notes: document.getElementById('detailNotes').value
+      };
+
+      try {
+        const response = await fetch(`/api/interest-submissions/${submission.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': state.apiKey
+          },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Could not save the lead.');
+        }
+
+        state.summary = result.summary || state.summary;
+        state.submissions = state.submissions.map((entry) =>
+          entry.id === submission.id ? result.submission : entry
+        );
+        setMessage('Lead updated.', 'success');
+        renderMetrics();
+        renderList();
+      } catch (error) {
+        detailMessage.textContent = error.message || 'Could not save the lead.';
+        detailMessage.className = 'message error';
+      }
+    }
+
+    async function exportCsv() {
+      if (!state.apiKey) {
+        setMessage('Enter the admin API key before exporting.', 'error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/interest-submissions.csv', {
+          headers: authHeaders()
+        });
+
+        if (!response.ok) {
+          const result = await response.json();
+          throw new Error(result.error || 'Could not export CSV.');
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'robovotech-interest-submissions.csv';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        setMessage('CSV export downloaded.', 'success');
+      } catch (error) {
+        setMessage(error.message || 'Could not export CSV.', 'error');
+      }
+    }
+
+    async function copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        setMessage('Email copied to clipboard.', 'success');
+      } catch (error) {
+        setMessage('Clipboard access was unavailable in this browser.', 'error');
+      }
+    }
+
+    function titleCase(value) {
+      return String(value || '')
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase());
+    }
+
+    function truncate(value, length) {
+      const text = String(value || '');
+      return text.length > length ? `${text.slice(0, length - 1)}…` : text;
+    }
+
+    function formatDateTime(value) {
+      if (!value) {
+        return 'Unknown date';
+      }
+
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) {
+        return value;
+      }
+
+      return new Intl.DateTimeFormat(undefined, {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+      }).format(date);
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function escapeAttribute(value) {
+      return escapeHtml(value).replace(/`/g, '&#96;');
+    }
+  </script>
+</body>
+</html>

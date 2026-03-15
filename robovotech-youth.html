@@ -1099,28 +1099,28 @@
         <p class="section-desc">Fill out this quick form and we'll reach out with next steps, scholarship info, and cohort dates.</p>
       </div>
       <div class="form-card" data-aos="fade-up" data-aos-delay="100">
-        <form id="interestForm" onsubmit="handleFormSubmit(event)">
+        <form id="interestForm">
           <div class="form-row form-row-2">
             <div>
               <label class="form-label" for="firstName">First Name *</label>
-              <input class="form-input" type="text" id="firstName" placeholder="Jordan" required>
+              <input class="form-input" type="text" id="firstName" name="firstName" placeholder="Jordan" required>
             </div>
             <div>
               <label class="form-label" for="lastName">Last Name *</label>
-              <input class="form-input" type="text" id="lastName" placeholder="Rivera" required>
+              <input class="form-input" type="text" id="lastName" name="lastName" placeholder="Rivera" required>
             </div>
           </div>
           <div class="form-row">
             <label class="form-label" for="email">Email *</label>
-            <input class="form-input" type="email" id="email" placeholder="jordan@email.com" required>
+            <input class="form-input" type="email" id="email" name="email" placeholder="jordan@email.com" required>
           </div>
           <div class="form-row">
             <label class="form-label" for="phone">Phone</label>
-            <input class="form-input" type="tel" id="phone" placeholder="(850) 555-1234">
+            <input class="form-input" type="tel" id="phone" name="phone" placeholder="(850) 555-1234">
           </div>
           <div class="form-row">
             <label class="form-label" for="age">Age Group *</label>
-            <select class="form-select" id="age" required>
+            <select class="form-select" id="age" name="age" required>
               <option value="" disabled selected>Select your age group</option>
               <option value="16-18">16–18 (High School)</option>
               <option value="18-24">18–24 (Young Adult)</option>
@@ -1130,7 +1130,7 @@
           </div>
           <div class="form-row">
             <label class="form-label" for="background">Current Situation</label>
-            <select class="form-select" id="background">
+            <select class="form-select" id="background" name="background">
               <option value="" disabled selected>Select one</option>
               <option value="student">Current Student</option>
               <option value="recent-grad">Recent Graduate</option>
@@ -1142,16 +1142,18 @@
           </div>
           <div class="form-row">
             <label class="form-label" for="interest">What excites you most about robotics?</label>
-            <input class="form-input" type="text" id="interest" placeholder="Building things, programming, the salary, the future...">
+            <input class="form-input" type="text" id="interest" name="interest" placeholder="Building things, programming, the salary, the future...">
           </div>
           <div class="form-checkbox-row">
-            <input type="checkbox" id="wioa">
+            <input type="checkbox" id="wioa" name="wioa">
             <label for="wioa">I'm interested in WIOA financial assistance (up to $7,000)</label>
           </div>
           <div class="form-checkbox-row">
-            <input type="checkbox" id="virtual">
+            <input type="checkbox" id="virtual" name="virtual">
             <label for="virtual">I'd prefer a mostly virtual / online format if available</label>
           </div>
+          <input type="text" id="website" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;" aria-hidden="true">
+          <p id="formError" class="form-note" style="display:none; color:#fda4af;" role="alert"></p>
           <button type="submit" class="btn-submit" id="submitBtn">
             <i class="fa-solid fa-paper-plane"></i>&ensp;Submit My Interest
           </button>
@@ -1221,6 +1223,10 @@
     const nav = document.getElementById('mainNav');
     const scrollProgress = document.getElementById('scrollProgress');
     const backToTop = document.getElementById('backToTop');
+    const interestForm = document.getElementById('interestForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formError = document.getElementById('formError');
+    const formSuccess = document.getElementById('formSuccess');
 
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
@@ -1296,10 +1302,74 @@
     });
 
     // ====== Form submit ======
-    function handleFormSubmit(e) {
+    interestForm.addEventListener('submit', handleFormSubmit);
+
+    function setSubmitState(isSubmitting) {
+      submitBtn.disabled = isSubmitting;
+      submitBtn.innerHTML = isSubmitting
+        ? '<i class="fa-solid fa-spinner fa-spin"></i>&ensp;Submitting...'
+        : '<i class="fa-solid fa-paper-plane"></i>&ensp;Submit My Interest';
+    }
+
+    function showFormError(message) {
+      formError.textContent = message;
+      formError.style.display = 'block';
+    }
+
+    function clearFormError() {
+      formError.textContent = '';
+      formError.style.display = 'none';
+    }
+
+    async function handleFormSubmit(e) {
       e.preventDefault();
-      document.getElementById('interestForm').style.display = 'none';
-      document.getElementById('formSuccess').style.display = 'block';
+      clearFormError();
+
+      if (!interestForm.reportValidity()) {
+        return;
+      }
+
+      const payload = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        age: document.getElementById('age').value,
+        background: document.getElementById('background').value,
+        interest: document.getElementById('interest').value,
+        wioa: document.getElementById('wioa').checked,
+        virtual: document.getElementById('virtual').checked,
+        website: document.getElementById('website').value
+      };
+
+      setSubmitState(true);
+
+      try {
+        const response = await fetch('/api/interest-submissions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'We could not submit your interest right now.');
+        }
+
+        interestForm.style.display = 'none';
+        formSuccess.style.display = 'block';
+
+        if (result.duplicate) {
+          formSuccess.querySelector('p').textContent = 'We already have a recent submission for this contact. We will still follow up with next steps and cohort dates.';
+        }
+      } catch (error) {
+        showFormError(error.message || 'We could not submit your interest right now.');
+      } finally {
+        setSubmitState(false);
+      }
     }
   </script>
 </body>

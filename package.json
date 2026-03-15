@@ -1,0 +1,13 @@
+{
+  "name": "robovotech-youth-landing-page",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page and lightweight backend for RoboVoTech youth interest capture.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/interest-submissions.test.js"
+  },
+  "engines": {
+    "node": ">=14.17"
+  }
+}

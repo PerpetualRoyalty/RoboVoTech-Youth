@@ -1,22 +1,73 @@
 # RoboVoTech — Youth Interactive Landing Page
 
-Production-ready interactive HTML page for the **AI & Robotics Technician Certification** program targeting American youth in Walton County, FL.
+Production-ready landing page and lightweight backend for the **AI & Robotics Technician Certification** program targeting American youth in Walton County, FL.
 
 ## Quick Start
 
-Open `robovotech-youth.html` in any browser — no build step, no dependencies to install.
-
-Or deploy instantly:
+Run the app with Node 14.17+:
 
 ```bash
-# GitHub Pages — just enable Pages on the main branch
-# Netlify / Vercel — drag and drop the file
-# Embed — use an iframe pointing to the hosted URL
+node server.js
+```
+
+Then open [http://localhost:3000](http://localhost:3000).
+
+The server hosts the landing page and captures interest-form submissions to `data/interest-submissions.json`.
+
+If you only want to preview the static page with no backend, you can still open `robovotech-youth.html` directly in a browser.
+
+## Backend Features
+
+- Real `POST /api/interest-submissions` lead capture
+- Server-side validation and honeypot spam protection
+- Duplicate detection for repeat submissions from the same contact
+- Local JSON persistence with no external database required
+- Admin dashboard for triage, notes, and follow-up tracking
+- Admin-only JSON, patch, and CSV export endpoints
+- Health endpoint with aggregate lead counts
+
+## Admin Workflow
+
+Set an admin key before starting the server:
+
+```bash
+ADMIN_API_KEY=change-me node server.js
+```
+
+Then open [http://localhost:3000/admin](http://localhost:3000/admin).
+
+The dashboard lets you:
+
+- Search across name, email, phone, interest, and notes
+- Filter the lead queue by pipeline status
+- Update status, follow-up date, and internal notes
+- Export the full lead list as CSV
+
+If you want to call the API directly:
+
+```bash
+curl -H "x-admin-key: change-me" http://localhost:3000/api/interest-submissions
+curl -X PATCH -H "x-admin-key: change-me" -H "Content-Type: application/json" \
+  --data '{"status":"contacted","followUpDate":"2026-03-20","notes":"Scheduled callback."}' \
+  http://localhost:3000/api/interest-submissions/<submission-id>
+curl -H "x-admin-key: change-me" http://localhost:3000/api/interest-submissions.csv
+```
+
+## Verification
+
+```bash
+node test/interest-submissions.test.js
 ```
 
 ## What's Inside
 
-A single self-contained HTML file (~800 lines) with:
+- `robovotech-youth.html` — marketing page and frontend form flow
+- `admin.html` — lead-management dashboard for staff
+- `server.js` — dependency-free Node HTTP server
+- `lib/interest-submissions.js` — validation, dedupe, filter, summary, update, CSV helpers
+- `test/interest-submissions.test.js` — backend unit tests
+
+Frontend highlights:
 
 - **Hero** — Animated counters, gradient orbs, dual CTAs
 - **Why Robotics** — Bento grid with Florida manufacturing stats
@@ -25,7 +76,8 @@ A single self-contained HTML file (~800 lines) with:
 - **Career Paths** — 3-tier salary progression ($52K → $71K → $105K)
 - **Testimonials** — Horizontal-scroll student stories
 - **FAQ** — 7-item collapsible accordion
-- **Interest Form** — Lead capture with validation & success state
+- **Interest Form** — Real API-backed lead capture with error handling
+- **Admin Dashboard** — Search, triage, notes, follow-up dates, and CSV export
 
 ## Tech
 
@@ -35,6 +87,7 @@ A single self-contained HTML file (~800 lines) with:
 | Icons | Font Awesome 6.5.1 (CDN) |
 | Animations | AOS 2.3.4 (CDN) |
 | JS | Vanilla — zero frameworks |
+| Backend | Node.js `http` + filesystem JSON storage |
 | Responsive | Tested 390px–1440px |
 
 ## Colors
