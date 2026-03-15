@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoboVoTech — Build Your Future in Robotics</title>
+  <meta name="description" content="Launch your career in AI & Robotics with RoboVoTech's 120-hour certification in Walton County, FL. No experience needed. High-wage pathways start here.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <style>
+    :root {
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --blue: #2563eb;
+      --blue-light: #3b82f6;
+      --cyan: #06b6d4;
+      --orange: #f97316;
+      --amber: #f59e0b;
+      --lime: #84cc16;
+      --white: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --gray-900: #0f172a;
+      --font-main: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.1);
+      --shadow-md: 0 4px 20px rgba(0,0,0,.12);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,.18);
+      --shadow-glow-blue: 0 0 30px rgba(37,99,235,.25);
+      --shadow-glow-orange: 0 0 30px rgba(249,115,22,.25);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--navy);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============ UTILITY ============ */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+    /* ============ NAV ============ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(15,23,42,.85);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      transition: background .3s, box-shadow .3s;
+    }
+    .nav.scrolled { background: rgba(15,23,42,.96); box-shadow: 0 4px 30px rgba(0,0,0,.3); }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px; max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: .75rem;
+      text-decoration: none; color: var(--white);
+    }
+    .nav-logo {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--orange), var(--amber));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 700; color: var(--navy);
+    }
+    .nav-wordmark { font-size: 1.2rem; font-weight: 700; letter-spacing: -.02em; }
+    .nav-wordmark em { font-style: normal; color: var(--orange); }
+
+    .nav-links { display: flex; align-items: center; gap: .25rem; list-style: none; }
+    .nav-links a {
+      display: block; padding: .5rem .85rem; font-size: .875rem; font-weight: 500;
+      color: var(--gray-400); text-decoration: none; border-radius: 8px;
+      transition: color .2s, background .2s;
+    }
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,.06); }
+    .nav-cta {
+      padding: .55rem 1.15rem !important; font-weight: 600 !important;
+      background: var(--orange) !important; color: var(--navy) !important;
+      border-radius: 10px !important;
+    }
+    .nav-cta:hover { background: var(--amber) !important; }
+
+    .hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      color: var(--white); font-size: 1.5rem; padding: .5rem;
+    }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0;
+      background: rgba(15,23,42,.98); backdrop-filter: blur(20px);
+      z-index: 999; padding: 2rem 1.25rem; flex-direction: column; gap: .25rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      display: block; padding: 1rem; font-size: 1.1rem; font-weight: 500;
+      color: var(--gray-400); text-decoration: none; border-radius: 10px;
+      transition: all .2s;
+    }
+    .mobile-menu a:hover { color: var(--white); background: rgba(255,255,255,.06); }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      position: relative; min-height: 100vh; display: flex; align-items: center;
+      padding: 7rem 0 5rem; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 40%, rgba(37,99,235,.15), transparent),
+        radial-gradient(ellipse 60% 50% at 80% 60%, rgba(249,115,22,.1), transparent),
+        radial-gradient(ellipse 50% 40% at 50% 90%, rgba(6,182,212,.08), transparent);
+    }
+
+    /* Grid background */
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0; opacity: .08;
+      background-image:
+        linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Floating orbs */
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(60px); z-index: 0;
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+    .orb-1 { width: 300px; height: 300px; background: rgba(37,99,235,.2); top: 10%; left: -5%; animation-delay: 0s; }
+    .orb-2 { width: 200px; height: 200px; background: rgba(249,115,22,.15); top: 60%; right: -3%; animation-delay: -3s; }
+    .orb-3 { width: 180px; height: 180px; background: rgba(6,182,212,.12); bottom: 5%; left: 30%; animation-delay: -5s; }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .45rem 1rem; background: rgba(249,115,22,.12);
+      border: 1px solid rgba(249,115,22,.25); border-radius: 999px;
+      font-size: .8rem; font-weight: 600; color: var(--orange);
+      text-transform: uppercase; letter-spacing: .08em;
+      margin-bottom: 1.75rem;
+    }
+    .hero-tag i { font-size: .7rem; }
+    .hero-pulse {
+      width: 8px; height: 8px; background: var(--lime); border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(1.8); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 700;
+      line-height: 1.08; letter-spacing: -.03em;
+      margin-bottom: 1.5rem; max-width: 720px;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(90deg, var(--orange), var(--amber));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--gray-400);
+      max-width: 560px; margin-bottom: 2.5rem; line-height: 1.7;
+    }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3.5rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .6rem;
+      padding: .9rem 1.75rem; font-family: var(--font-main);
+      font-size: 1rem; font-weight: 600; border-radius: var(--radius);
+      border: none; cursor: pointer; text-decoration: none;
+      transition: all .25s ease;
+    }
+    .btn-orange {
+      background: linear-gradient(135deg, var(--orange), #ea580c);
+      color: white; box-shadow: 0 4px 20px rgba(249,115,22,.3);
+    }
+    .btn-orange:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow-orange); }
+    .btn-ghost {
+      background: rgba(255,255,255,.06); color: var(--white);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); }
+
+    /* Hero stats ticker */
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+      padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-val {
+      font-size: clamp(1.6rem, 3.5vw, 2.5rem); font-weight: 700;
+      font-family: var(--font-mono); color: var(--amber);
+    }
+    .hero-stat-label { font-size: .78rem; color: var(--gray-400); margin-top: .15rem; }
+    @media (max-width: 640px) {
+      .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    }
+
+    /* ============ SECTIONS ============ */
+    section { padding: 5rem 0; position: relative; }
+
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--cyan); margin-bottom: .75rem;
+    }
+    .section-tag i { font-size: .65rem; }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700;
+      line-height: 1.15; letter-spacing: -.02em; margin-bottom: .75rem;
+    }
+    .section-desc {
+      font-size: 1.05rem; color: var(--gray-400);
+      max-width: 580px; margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ============ WHY ROBOTICS (BENTO GRID) ============ */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+      gap: 1rem;
+    }
+    .bento-card {
+      position: relative; padding: 1.75rem; border-radius: var(--radius-lg);
+      background: var(--navy-light); border: 1px solid rgba(255,255,255,.06);
+      overflow: hidden; transition: all .3s ease;
+    }
+    .bento-card:hover { border-color: rgba(255,255,255,.12); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .bento-card.span-2 { grid-column: span 2; }
+    .bento-card.tall { grid-row: span 2; }
+
+    .bento-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; margin-bottom: 1rem;
+    }
+    .bento-icon.blue { background: rgba(37,99,235,.15); color: var(--blue-light); }
+    .bento-icon.orange { background: rgba(249,115,22,.15); color: var(--orange); }
+    .bento-icon.cyan { background: rgba(6,182,212,.15); color: var(--cyan); }
+    .bento-icon.lime { background: rgba(132,204,22,.15); color: var(--lime); }
+
+    .bento-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: .5rem; }
+    .bento-card p { font-size: .9rem; color: var(--gray-400); line-height: 1.6; }
+
+    .bento-stat {
+      font-size: 2.8rem; font-weight: 700; font-family: var(--font-mono);
+      margin-bottom: .25rem;
+    }
+    .bento-stat.orange-text { color: var(--orange); }
+    .bento-stat.blue-text { color: var(--blue-light); }
+    .bento-stat.cyan-text { color: var(--cyan); }
+
+    .bento-glow {
+      position: absolute; width: 200px; height: 200px; border-radius: 50%;
+      filter: blur(80px); opacity: .15; z-index: 0;
+    }
+
+    @media (max-width: 768px) {
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-card.span-2 { grid-column: span 1; }
+      .bento-card.tall { grid-row: span 1; }
+    }
+
+    /* ============ CURRICULUM TIMELINE ============ */
+    .timeline { position: relative; padding-left: 2.5rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 1rem; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--blue), var(--orange), var(--cyan));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative; margin-bottom: 2rem; padding: 1.5rem;
+      background: var(--navy-light); border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius-lg); cursor: pointer;
+      transition: all .3s ease;
+    }
+    .timeline-item:hover { border-color: rgba(255,255,255,.1); }
+    .timeline-item.active { border-color: var(--blue); box-shadow: var(--shadow-glow-blue); }
+
+    .timeline-dot {
+      position: absolute; left: -2rem; top: 1.75rem;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--gray-700); border: 2px solid var(--navy);
+      transition: all .3s;
+    }
+    .timeline-item.active .timeline-dot { background: var(--blue); box-shadow: 0 0 12px var(--blue); }
+
+    .timeline-week {
+      font-size: .7rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--cyan); margin-bottom: .4rem;
+    }
+    .timeline-title {
+      font-size: 1.1rem; font-weight: 600; margin-bottom: .25rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .timeline-hours {
+      font-size: .78rem; font-weight: 500; color: var(--orange);
+      font-family: var(--font-mono); white-space: nowrap;
+    }
+    .timeline-desc { font-size: .88rem; color: var(--gray-400); margin-bottom: .75rem; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .timeline-tag {
+      display: inline-block; padding: .2rem .6rem; font-size: .7rem; font-weight: 500;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 6px; color: var(--gray-400);
+    }
+
+    .timeline-details {
+      max-height: 0; overflow: hidden; transition: max-height .4s ease, margin .3s;
+    }
+    .timeline-item.active .timeline-details { max-height: 600px; margin-top: 1rem; }
+    .timeline-detail-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .75rem;
+      padding-top: 1rem; border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .timeline-detail-item { display: flex; align-items: flex-start; gap: .5rem; }
+    .timeline-detail-item i { color: var(--lime); margin-top: .2rem; font-size: .75rem; }
+    .timeline-detail-item span { font-size: .82rem; color: var(--gray-400); }
+
+    @media (max-width: 640px) {
+      .timeline-detail-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============ TECH STACK ============ */
+    .tech-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: .75rem;
+    }
+    .tech-chip {
+      display: flex; align-items: center; gap: .6rem;
+      padding: .85rem 1rem; background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius);
+      transition: all .25s; cursor: default;
+    }
+    .tech-chip:hover { border-color: rgba(255,255,255,.15); transform: translateY(-2px); }
+    .tech-chip-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem;
+    }
+    .tech-chip-icon.ros { background: rgba(37,99,235,.15); color: var(--blue-light); }
+    .tech-chip-icon.ai { background: rgba(249,115,22,.15); color: var(--orange); }
+    .tech-chip-icon.hw { background: rgba(6,182,212,.15); color: var(--cyan); }
+    .tech-chip-icon.tool { background: rgba(132,204,22,.15); color: var(--lime); }
+    .tech-chip-name { font-size: .8rem; font-weight: 500; }
+
+    /* ============ CAREER PATHS ============ */
+    .paths-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .path-card {
+      position: relative; padding: 2rem 1.5rem; background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius-lg);
+      text-align: center; overflow: hidden; transition: all .3s;
+    }
+    .path-card:hover { border-color: rgba(255,255,255,.12); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .path-card .path-glow {
+      position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+      width: 160px; height: 160px; border-radius: 50%; filter: blur(60px); opacity: .12;
+    }
+    .path-card.entry .path-glow { background: var(--blue-light); }
+    .path-card.mid .path-glow { background: var(--orange); }
+    .path-card.senior .path-glow { background: var(--cyan); }
+
+    .path-salary {
+      position: relative; z-index: 1;
+      font-size: 2.2rem; font-weight: 700; font-family: var(--font-mono);
+      margin-bottom: .25rem;
+    }
+    .path-card.entry .path-salary { color: var(--blue-light); }
+    .path-card.mid .path-salary { color: var(--orange); }
+    .path-card.senior .path-salary { color: var(--cyan); }
+    .path-range { font-size: .78rem; color: var(--gray-500); margin-bottom: 1rem; font-family: var(--font-mono); }
+    .path-title { font-size: 1.1rem; font-weight: 600; margin-bottom: .5rem; position: relative; z-index: 1; }
+    .path-desc { font-size: .85rem; color: var(--gray-400); margin-bottom: 1rem; position: relative; z-index: 1; }
+    .path-skills { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem; position: relative; z-index: 1; }
+    .path-skill {
+      padding: .2rem .55rem; font-size: .68rem; font-weight: 500;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 6px; color: var(--gray-400);
+    }
+
+    @media (max-width: 768px) {
+      .paths-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============ TESTIMONIALS ============ */
+    .testimonials-track {
+      display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory;
+      padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--gray-700) transparent;
+    }
+    .testimonials-track::-webkit-scrollbar { height: 6px; }
+    .testimonials-track::-webkit-scrollbar-track { background: transparent; }
+    .testimonials-track::-webkit-scrollbar-thumb { background: var(--gray-700); border-radius: 3px; }
+
+    .testimonial-card {
+      flex: 0 0 340px; scroll-snap-align: start;
+      padding: 1.75rem; background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius-lg);
+      transition: all .3s;
+    }
+    .testimonial-card:hover { border-color: rgba(255,255,255,.1); }
+    .testimonial-stars { color: var(--amber); font-size: .85rem; margin-bottom: .75rem; }
+    .testimonial-quote { font-size: .92rem; color: var(--gray-400); line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: .75rem; }
+    .testimonial-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 700; color: var(--navy);
+    }
+    .testimonial-avatar.a1 { background: linear-gradient(135deg, var(--blue-light), var(--cyan)); }
+    .testimonial-avatar.a2 { background: linear-gradient(135deg, var(--orange), var(--amber)); }
+    .testimonial-avatar.a3 { background: linear-gradient(135deg, var(--lime), var(--cyan)); }
+    .testimonial-avatar.a4 { background: linear-gradient(135deg, var(--amber), var(--orange)); }
+    .testimonial-name { font-size: .88rem; font-weight: 600; }
+    .testimonial-role { font-size: .75rem; color: var(--gray-500); }
+
+    /* ============ FAQ ============ */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .faq-question {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 0; background: none; border: none; cursor: pointer;
+      font-family: var(--font-main); font-size: 1rem; font-weight: 500;
+      color: var(--white); text-align: left; transition: color .2s;
+    }
+    .faq-question:hover { color: var(--orange); }
+    .faq-question i { transition: transform .3s; color: var(--gray-500); font-size: .85rem; }
+    .faq-item.open .faq-question i { transform: rotate(45deg); color: var(--orange); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .3s;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer p {
+      padding-bottom: 1.25rem; font-size: .9rem; color: var(--gray-400); line-height: 1.7;
+    }
+
+    /* ============ CTA SECTION ============ */
+    .cta-section {
+      position: relative; padding: 5rem 0; text-align: center; overflow: hidden;
+    }
+    .cta-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(135deg, rgba(37,99,235,.08), rgba(249,115,22,.08));
+      border-top: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .cta-content { position: relative; z-index: 1; }
+    .cta-content h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700;
+      margin-bottom: 1rem; letter-spacing: -.02em;
+    }
+    .cta-content p { font-size: 1.05rem; color: var(--gray-400); max-width: 500px; margin: 0 auto 2rem; }
+    .cta-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+
+    /* ============ INTEREST FORM ============ */
+    .form-section { padding: 5rem 0; }
+    .form-card {
+      max-width: 640px; margin: 0 auto; padding: 2.5rem;
+      background: var(--navy-light); border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius-lg);
+    }
+    .form-row { margin-bottom: 1.25rem; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 500px) { .form-row-2 { grid-template-columns: 1fr; } }
+    .form-label {
+      display: block; font-size: .82rem; font-weight: 500; color: var(--gray-400);
+      margin-bottom: .35rem;
+    }
+    .form-input, .form-select {
+      width: 100%; padding: .75rem 1rem; font-family: var(--font-main); font-size: .9rem;
+      color: var(--white); background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 10px;
+      transition: border-color .2s, box-shadow .2s; outline: none;
+    }
+    .form-input::placeholder { color: var(--gray-500); }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+    }
+    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; }
+    .form-select option { background: var(--navy); color: var(--white); }
+    .form-checkbox-row {
+      display: flex; align-items: flex-start; gap: .6rem; margin-bottom: 1.25rem;
+    }
+    .form-checkbox-row input[type="checkbox"] {
+      width: 18px; height: 18px; margin-top: 2px; accent-color: var(--orange);
+    }
+    .form-checkbox-row label { font-size: .82rem; color: var(--gray-400); }
+
+    .btn-submit {
+      width: 100%; padding: 1rem; font-family: var(--font-main);
+      font-size: 1rem; font-weight: 600; color: white;
+      background: linear-gradient(135deg, var(--orange), #ea580c);
+      border: none; border-radius: var(--radius); cursor: pointer;
+      transition: all .25s;
+    }
+    .btn-submit:hover { box-shadow: var(--shadow-glow-orange); transform: translateY(-2px); }
+    .form-note { font-size: .75rem; color: var(--gray-500); text-align: center; margin-top: 1rem; }
+
+    /* ============ FOOTER ============ */
+    .footer {
+      padding: 3rem 0 2rem;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .footer-inner {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start;
+      gap: 2rem; margin-bottom: 2rem;
+    }
+    .footer-brand { max-width: 280px; }
+    .footer-brand-logo { display: flex; align-items: center; gap: .6rem; margin-bottom: .75rem; }
+    .footer-brand p { font-size: .85rem; color: var(--gray-500); line-height: 1.6; }
+    .footer-cols { display: flex; gap: 3rem; }
+    .footer-col h4 { font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--gray-400); margin-bottom: .75rem; }
+    .footer-col a { display: block; font-size: .85rem; color: var(--gray-500); text-decoration: none; padding: .2rem 0; transition: color .2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+      gap: 1rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.04);
+    }
+    .footer-copy { font-size: .78rem; color: var(--gray-500); }
+    .footer-socials { display: flex; gap: .5rem; }
+    .footer-social {
+      width: 36px; height: 36px; border-radius: 8px; display: flex;
+      align-items: center; justify-content: center;
+      color: var(--gray-400); background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06); transition: all .2s; text-decoration: none;
+    }
+    .footer-social:hover { color: var(--white); background: rgba(255,255,255,.08); }
+
+    @media (max-width: 640px) {
+      .footer-inner { flex-direction: column; }
+      .footer-cols { flex-direction: column; gap: 1.5rem; }
+    }
+
+    /* ============ COUNTER ANIMATION ============ */
+    .counter { display: inline-block; }
+
+    /* ============ PROGRESS RING ============ */
+    .progress-ring-wrapper { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+    .progress-ring-wrapper .ring-label {
+      position: absolute; font-size: 1.1rem; font-weight: 700; font-family: var(--font-mono);
+    }
+
+    /* ============ SCROLL INDICATOR ============ */
+    .scroll-progress {
+      position: fixed; top: 68px; left: 0; height: 3px; z-index: 999;
+      background: linear-gradient(90deg, var(--blue), var(--orange));
+      transition: width .1s linear;
+    }
+
+    /* ============ BACK TO TOP ============ */
+    .back-to-top {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 900;
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--orange); color: white; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(10px);
+      transition: all .3s; box-shadow: 0 4px 20px rgba(249,115,22,.3);
+    }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); }
+    .back-to-top:hover { background: var(--amber); }
+
+    /* ============ DIVIDER ============ */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress" style="width:0"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="mainNav">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <div class="nav-logo"><i class="fa-solid fa-robot"></i></div>
+        <div class="nav-wordmark">Robo<em>Vo</em>Tech</div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#why">Why Robotics</a></li>
+        <li><a href="#curriculum">Curriculum</a></li>
+        <li><a href="#tech">Tech Stack</a></li>
+        <li><a href="#careers">Careers</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#apply" class="nav-cta">Apply Now</a></li>
+      </ul>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#why" onclick="closeMobile()">Why Robotics</a>
+    <a href="#curriculum" onclick="closeMobile()">Curriculum</a>
+    <a href="#tech" onclick="closeMobile()">Tech Stack</a>
+    <a href="#careers" onclick="closeMobile()">Careers</a>
+    <a href="#faq" onclick="closeMobile()">FAQ</a>
+    <a href="#apply" onclick="closeMobile()" style="color:var(--orange);font-weight:600;">Apply Now</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="container hero-content">
+      <div class="hero-tag" data-aos="fade-down">
+        <div class="hero-pulse"></div>
+        <span>Now Enrolling — Walton County, FL</span>
+      </div>
+      <h1 data-aos="fade-up" data-aos-delay="100">
+        Your Future in<br><span class="highlight">AI & Robotics</span><br>Starts Here.
+      </h1>
+      <p class="hero-sub" data-aos="fade-up" data-aos-delay="200">
+        A 120-hour hands-on certification that takes you from zero experience to job-ready robotics technician. No degree required. High-wage careers, real robots, real skills.
+      </p>
+      <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
+        <a href="#apply" class="btn btn-orange"><i class="fa-solid fa-rocket"></i> Apply Now</a>
+        <a href="#curriculum" class="btn btn-ghost"><i class="fa-solid fa-play"></i> Explore Curriculum</a>
+      </div>
+      <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+        <div class="hero-stat">
+          <div class="hero-stat-val"><span class="counter" data-target="120">0</span>h</div>
+          <div class="hero-stat-label">Training Hours</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">$<span class="counter" data-target="70">0</span>K+</div>
+          <div class="hero-stat-label">Median Salary</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val"><span class="counter" data-target="12">0</span> wks</div>
+          <div class="hero-stat-label">To Certification</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val"><span class="counter" data-target="2">0</span>.1M</div>
+          <div class="hero-stat-label">Unfilled Jobs by 2030</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Robotics -->
+  <section id="why">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag"><i class="fa-solid fa-bolt"></i> Why Robotics</div>
+        <h2 class="section-title">The Opportunity Is <span style="color:var(--orange)">Massive</span></h2>
+        <p class="section-desc">Manufacturing is booming, robots are everywhere, and there aren't enough trained people. That's where you come in.</p>
+      </div>
+      <div class="bento-grid">
+        <div class="bento-card span-2" data-aos="fade-up">
+          <div class="bento-glow" style="background:var(--blue);top:-40px;left:-40px;"></div>
+          <div class="bento-icon blue"><i class="fa-solid fa-chart-line"></i></div>
+          <h3>Florida's Manufacturing Boom</h3>
+          <p>Florida hit a record 420,000+ manufacturing jobs and is projected to add 32,000 more by 2032. With 6,400+ new facilities since 2019, the Sunshine State is building its tech future fast — and needs skilled people to keep it running.</p>
+        </div>
+        <div class="bento-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="bento-stat orange-text">43%</div>
+          <h3>Salary Premium</h3>
+          <p>Robotics techs earn 43% more than the national median. Real money, real fast.</p>
+        </div>
+        <div class="bento-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="bento-stat blue-text">$22–27</div>
+          <h3>Starting Hourly</h3>
+          <p>Entry-level starting wages that translate to $46K–$56K annually — from Day 1.</p>
+        </div>
+        <div class="bento-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="bento-stat cyan-text">7 / 10</div>
+          <h3>Top Defense Contractors</h3>
+          <p>Okaloosa County hosts 7 of the world's top 10 defense contractors — right in your backyard.</p>
+        </div>
+        <div class="bento-card span-2" data-aos="fade-up" data-aos-delay="200">
+          <div class="bento-glow" style="background:var(--orange);bottom:-40px;right:-40px;"></div>
+          <div class="bento-icon orange"><i class="fa-solid fa-user-graduate"></i></div>
+          <h3>No Experience? No Problem.</h3>
+          <p>This program was built for people starting from scratch. Career changers, recent grads, military veterans transitioning to civilian roles — everyone is welcome. The 12-week blended format fits around your life, with 40% hands-on lab time and 60% flexible online learning.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Curriculum -->
+  <section id="curriculum">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag"><i class="fa-solid fa-code"></i> 12-Week Curriculum</div>
+        <h2 class="section-title">What You'll <span style="color:var(--cyan)">Learn</span></h2>
+        <p class="section-desc">A carefully sequenced journey from foundations to a hands-on capstone project. Click any module to see the details.</p>
+      </div>
+      <div class="timeline" id="timeline">
+        <!-- Week 1-2 -->
+        <div class="timeline-item active" data-aos="fade-up">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Weeks 1–2</div>
+          <div class="timeline-title">
+            <span>Foundations & Safety</span>
+            <span class="timeline-hours">20 hrs</span>
+          </div>
+          <div class="timeline-desc">Build the math, electronics, and programming-logic base you need — then earn your safety certs.</div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Math Foundations</span>
+            <span class="timeline-tag">Electronics Basics</span>
+            <span class="timeline-tag">Programming Logic</span>
+            <span class="timeline-tag">Career Pathways</span>
+          </div>
+          <div class="timeline-details">
+            <div class="timeline-detail-grid">
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Ratios, algebra, measurement for technicians</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Intro to electricity and circuits</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Computer literacy & coding logic</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Industry orientation & career mapping</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Adaptive diagnostic assessment</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Personalized gap remediation</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Week 3-4 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="50">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Weeks 3–4</div>
+          <div class="timeline-title">
+            <span>Industrial Safety Certification</span>
+            <span class="timeline-hours">16 hrs</span>
+          </div>
+          <div class="timeline-desc">Complete OSHA 10 and robot-specific safety training with real emergency equipment.</div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">OSHA 10</span>
+            <span class="timeline-tag">ISO 10218</span>
+            <span class="timeline-tag">LOTO</span>
+            <span class="timeline-tag">Robot Safety</span>
+          </div>
+          <div class="timeline-details">
+            <div class="timeline-detail-grid">
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>OSHA 10 General Industry credential</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>ISO 10218 robot safety awareness</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Robot-specific LOTO procedures</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Safety laser scanner configuration</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Emergency stop testing</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Safeguarding verification</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Week 5-6 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Weeks 5–6</div>
+          <div class="timeline-title">
+            <span>Robot Fundamentals & ROS 2</span>
+            <span class="timeline-hours">16 hrs</span>
+          </div>
+          <div class="timeline-desc">Get hands-on with ROS 2 Jazzy — the industry-standard robot operating system.</div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">ROS 2 Jazzy</span>
+            <span class="timeline-tag">Gazebo Harmonic</span>
+            <span class="timeline-tag">Nodes & Topics</span>
+            <span class="timeline-tag">TF Frames</span>
+          </div>
+          <div class="timeline-details">
+            <div class="timeline-detail-grid">
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>ROS 2 architecture & CLI tools</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Nodes, topics, services, actions</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Launch files & parameter config</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>QoS profiles & troubleshooting</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>TF tree & coordinate frames</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Gazebo Harmonic simulation</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Week 7-8 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="150">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Weeks 7–8</div>
+          <div class="timeline-title">
+            <span>Hardware Integration & PLCs</span>
+            <span class="timeline-hours">16 hrs</span>
+          </div>
+          <div class="timeline-desc">Wire sensors, talk to PLCs, and troubleshoot real industrial hardware.</div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Arduino</span>
+            <span class="timeline-tag">Raspberry Pi</span>
+            <span class="timeline-tag">Modbus</span>
+            <span class="timeline-tag">Ladder Logic</span>
+          </div>
+          <div class="timeline-details">
+            <div class="timeline-detail-grid">
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Arduino & RPi sensor interfacing</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Serial comms (RS-232, RS-485, Modbus)</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>PLC fundamentals & ladder logic</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Robot-PLC integration</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>I/O forcing & fault diagnosis</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Electrical troubleshooting basics</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Week 9-10 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Weeks 9–10</div>
+          <div class="timeline-title">
+            <span>Computer Vision & Navigation</span>
+            <span class="timeline-hours">16 hrs</span>
+          </div>
+          <div class="timeline-desc">Deploy AI vision models and teach robots to navigate autonomously.</div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">YOLO11</span>
+            <span class="timeline-tag">OpenCV</span>
+            <span class="timeline-tag">SLAM</span>
+            <span class="timeline-tag">Nav2</span>
+          </div>
+          <div class="timeline-details">
+            <div class="timeline-detail-grid">
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Camera calibration (intrinsic/extrinsic)</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Industrial lighting techniques</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>YOLO11 deployment via Ultralytics</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Map building with slam_toolbox</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Nav2 parameter tuning</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Jetson Orin Nano edge inference</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Week 11 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="250">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Week 11</div>
+          <div class="timeline-title">
+            <span>Edge Deployment & MLOps</span>
+            <span class="timeline-hours">8 hrs</span>
+          </div>
+          <div class="timeline-desc">Containerize, deploy to edge devices, and manage robot fleets remotely.</div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Docker</span>
+            <span class="timeline-tag">Jetson</span>
+            <span class="timeline-tag">AWS IoT Greengrass</span>
+            <span class="timeline-tag">OTA Updates</span>
+          </div>
+          <div class="timeline-details">
+            <div class="timeline-detail-grid">
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Docker fundamentals for ROS 2</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Edge deployment to Jetson</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Fleet management platforms</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>OTA update procedures</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Week 12 -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+          <div class="timeline-dot"></div>
+          <div class="timeline-week">Week 12</div>
+          <div class="timeline-title">
+            <span>Capstone Project & Certification</span>
+            <span class="timeline-hours">12 hrs</span>
+          </div>
+          <div class="timeline-desc">Build something real with a team — then present it for your certification.</div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">Team Project</span>
+            <span class="timeline-tag">Documentation</span>
+            <span class="timeline-tag">Presentation</span>
+            <span class="timeline-tag">Certification</span>
+          </div>
+          <div class="timeline-details">
+            <div class="timeline-detail-grid">
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Team-based capstone (3–4 people)</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Technical documentation portfolio</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Oral presentation & defense</span></div>
+              <div class="timeline-detail-item"><i class="fa-solid fa-check"></i><span>Video portfolio for employers</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Tech Stack -->
+  <section id="tech">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag"><i class="fa-solid fa-microchip"></i> Tech Stack</div>
+        <h2 class="section-title">Industry-Grade <span style="color:var(--lime)">Tools</span></h2>
+        <p class="section-desc">You'll train on the exact same platforms and hardware used by real robotics companies.</p>
+      </div>
+      <div class="tech-grid" data-aos="fade-up" data-aos-delay="100">
+        <div class="tech-chip"><div class="tech-chip-icon ros"><i class="fa-solid fa-robot"></i></div><span class="tech-chip-name">ROS 2 Jazzy</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon ros"><i class="fa-solid fa-cube"></i></div><span class="tech-chip-name">Gazebo Harmonic</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon ai"><i class="fa-solid fa-eye"></i></div><span class="tech-chip-name">YOLO11</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon ai"><i class="fa-solid fa-brain"></i></div><span class="tech-chip-name">OpenCV</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon hw"><i class="fa-solid fa-microchip"></i></div><span class="tech-chip-name">Jetson Orin Nano</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon hw"><i class="fa-solid fa-bolt"></i></div><span class="tech-chip-name">Arduino</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon hw"><i class="fa-solid fa-server"></i></div><span class="tech-chip-name">Raspberry Pi</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon tool"><i class="fa-brands fa-docker"></i></div><span class="tech-chip-name">Docker</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon tool"><i class="fa-brands fa-aws"></i></div><span class="tech-chip-name">AWS IoT Greengrass</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon ros"><i class="fa-solid fa-compass"></i></div><span class="tech-chip-name">Nav2</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon ai"><i class="fa-solid fa-wand-magic-sparkles"></i></div><span class="tech-chip-name">TensorRT</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon hw"><i class="fa-solid fa-industry"></i></div><span class="tech-chip-name">PLC / Ladder Logic</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon tool"><i class="fa-solid fa-shield-halved"></i></div><span class="tech-chip-name">OSHA 10</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon ai"><i class="fa-solid fa-map-location-dot"></i></div><span class="tech-chip-name">SLAM Toolbox</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon tool"><i class="fa-brands fa-python"></i></div><span class="tech-chip-name">Python</span></div>
+        <div class="tech-chip"><div class="tech-chip-icon tool"><i class="fa-brands fa-linux"></i></div><span class="tech-chip-name">Ubuntu 24.04</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Career Paths -->
+  <section id="careers">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag"><i class="fa-solid fa-arrow-trend-up"></i> Career Paths</div>
+        <h2 class="section-title">Where This <span style="color:var(--amber)">Takes You</span></h2>
+        <p class="section-desc">Start earning right away, then climb the ladder. Every role builds on what you learned here.</p>
+      </div>
+      <div class="paths-grid">
+        <div class="path-card entry" data-aos="fade-up">
+          <div class="path-glow"></div>
+          <div class="path-salary">$52K</div>
+          <div class="path-range">$46K – $56K / year</div>
+          <div class="path-title">Robotics Technician</div>
+          <div class="path-desc">Operate, maintain, and troubleshoot robot systems. This is where your cert takes you on Day 1.</div>
+          <div class="path-skills">
+            <span class="path-skill">Operate & Repair</span>
+            <span class="path-skill">Safety Compliance</span>
+            <span class="path-skill">ROS 2 CLI</span>
+          </div>
+        </div>
+        <div class="path-card mid" data-aos="fade-up" data-aos-delay="100">
+          <div class="path-glow"></div>
+          <div class="path-salary">$71K</div>
+          <div class="path-range">$60K – $85K / year</div>
+          <div class="path-title">Automation Specialist</div>
+          <div class="path-desc">Program and integrate robotic systems. 2–3 years in, you're designing workflows and writing code.</div>
+          <div class="path-skills">
+            <span class="path-skill">PLC Programming</span>
+            <span class="path-skill">Vision Integration</span>
+            <span class="path-skill">System Design</span>
+          </div>
+        </div>
+        <div class="path-card senior" data-aos="fade-up" data-aos-delay="200">
+          <div class="path-glow"></div>
+          <div class="path-salary">$105K</div>
+          <div class="path-range">$85K – $130K / year</div>
+          <div class="path-title">Robotics Engineer</div>
+          <div class="path-desc">Plan entire automation lines. With continued education, you lead teams and shape factory floors.</div>
+          <div class="path-skills">
+            <span class="path-skill">System Architecture</span>
+            <span class="path-skill">Fleet Management</span>
+            <span class="path-skill">Leadership</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag"><i class="fa-solid fa-quote-left"></i> Student Stories</div>
+        <h2 class="section-title">Hear From People <span style="color:var(--blue-light)">Like You</span></h2>
+      </div>
+      <div class="testimonials-track" data-aos="fade-up" data-aos-delay="100">
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="testimonial-quote">"I was working retail and didn't think tech was for me. Twelve weeks later I'm calibrating robots at a defense contractor. The hands-on approach made all the difference."</div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar a1">JR</div>
+            <div><div class="testimonial-name">Jordan R.</div><div class="testimonial-role">Now at Lockheed Martin</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="testimonial-quote">"After 8 years in the Air Force, I needed real civilian credentials. RoboVoTech bridged that gap fast. The OSHA cert alone opened doors I didn't expect."</div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar a2">MK</div>
+            <div><div class="testimonial-name">Marcus K.</div><div class="testimonial-role">Veteran, now Automation Tech</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="testimonial-quote">"The blended format was perfect — I could keep my part-time job during the week and come in for labs on weekends. Now I'm making double what I was."</div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar a3">SP</div>
+            <div><div class="testimonial-name">Sofia P.</div><div class="testimonial-role">Recent HS Grad, now Robot Tech</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="testimonial-quote">"The capstone project was the highlight — we built a pick-and-place system from scratch. Employers at the demo day were handing out cards. I had two offers before graduation."</div>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar a4">DT</div>
+            <div><div class="testimonial-name">DeAndre T.</div><div class="testimonial-role">Career Changer, now at Boeing</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag"><i class="fa-solid fa-circle-question"></i> FAQ</div>
+        <h2 class="section-title">Got <span style="color:var(--orange)">Questions?</span></h2>
+      </div>
+      <div class="faq-list" data-aos="fade-up" data-aos-delay="100">
+        <div class="faq-item">
+          <button class="faq-question">Do I need any prior tech experience?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><p>Not at all. The program starts with a 2-week foundation module that covers the math, electronics, and logic basics you need. It's designed specifically for people with zero robotics background — career changers, recent grads, and veterans all start here.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How is the program delivered?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><p>It's a blended format: roughly 60% self-paced online content and 40% in-person lab sessions. Online modules cover theory and demonstrations you can work through on your schedule. Lab sessions are where you get hands-on with real robots, PLCs, and industrial equipment in Walton County.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What certifications will I earn?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><p>You'll earn your OSHA 10 General Industry certification and the RoboVoTech AI-Augmented Robotics Technician credential. The program also prepares you for FANUC CERT, Siemens SMSCP, and MSSC CPT — stackable industry certs that can earn you college credit through Florida's Gold Standard articulation system.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Is there financial aid available?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><p>Yes. Eligible participants can receive up to $7,000 through WIOA funding via CareerSource Okaloosa Walton, which covers tuition, materials, and supplies. We'll help you navigate the application process during enrollment.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What kind of jobs can I get after completing the program?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><p>Graduates typically start as Robotics Technicians or Automation Maintenance Technicians earning $22–$27/hour ($46K–$56K/year). Northwest Florida is home to Lockheed Martin, Boeing, L3Harris, Raytheon, and Crane Aerospace — all actively hiring automation talent. About 1,300 military members transition annually from Eglin AFB and Hurlburt Field, creating steady demand.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Can I do this while working another job?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><p>Absolutely. The 60% online portion is self-paced with weekly deadlines. Lab sessions are scheduled to accommodate working schedules. Many students maintain part-time or even full-time jobs throughout the 12 weeks.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What hardware will I work with?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><p>Real industrial equipment: NVIDIA Jetson Orin Nano edge AI boards, Arduino and Raspberry Pi for prototyping, PLCs with ladder logic, industrial robot arms, cameras and lighting rigs for machine vision, and autonomous mobile robots running Nav2. No simulations-only shortcuts.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="container cta-content" data-aos="fade-up">
+      <h2>Ready to Build <span style="color:var(--orange)">Your Future?</span></h2>
+      <p>Spots are limited. The next cohort starts soon. Lock in your seat and start your journey into robotics.</p>
+      <div class="cta-buttons">
+        <a href="#apply" class="btn btn-orange"><i class="fa-solid fa-rocket"></i> Apply Now — It's Free</a>
+        <a href="#curriculum" class="btn btn-ghost"><i class="fa-solid fa-calendar"></i> View Full Schedule</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interest Form -->
+  <section id="apply" class="form-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-tag"><i class="fa-solid fa-paper-plane"></i> Get Started</div>
+        <h2 class="section-title">Express Your <span style="color:var(--orange)">Interest</span></h2>
+        <p class="section-desc">Fill out this quick form and we'll reach out with next steps, scholarship info, and cohort dates.</p>
+      </div>
+      <div class="form-card" data-aos="fade-up" data-aos-delay="100">
+        <form id="interestForm" onsubmit="handleFormSubmit(event)">
+          <div class="form-row form-row-2">
+            <div>
+              <label class="form-label" for="firstName">First Name *</label>
+              <input class="form-input" type="text" id="firstName" placeholder="Jordan" required>
+            </div>
+            <div>
+              <label class="form-label" for="lastName">Last Name *</label>
+              <input class="form-input" type="text" id="lastName" placeholder="Rivera" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="email">Email *</label>
+            <input class="form-input" type="email" id="email" placeholder="jordan@email.com" required>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="phone">Phone</label>
+            <input class="form-input" type="tel" id="phone" placeholder="(850) 555-1234">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="age">Age Group *</label>
+            <select class="form-select" id="age" required>
+              <option value="" disabled selected>Select your age group</option>
+              <option value="16-18">16–18 (High School)</option>
+              <option value="18-24">18–24 (Young Adult)</option>
+              <option value="25-34">25–34</option>
+              <option value="35+">35+</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="background">Current Situation</label>
+            <select class="form-select" id="background">
+              <option value="" disabled selected>Select one</option>
+              <option value="student">Current Student</option>
+              <option value="recent-grad">Recent Graduate</option>
+              <option value="career-change">Career Changer</option>
+              <option value="veteran">Military Veteran / Transitioning</option>
+              <option value="unemployed">Currently Unemployed</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="interest">What excites you most about robotics?</label>
+            <input class="form-input" type="text" id="interest" placeholder="Building things, programming, the salary, the future...">
+          </div>
+          <div class="form-checkbox-row">
+            <input type="checkbox" id="wioa">
+            <label for="wioa">I'm interested in WIOA financial assistance (up to $7,000)</label>
+          </div>
+          <div class="form-checkbox-row">
+            <input type="checkbox" id="virtual">
+            <label for="virtual">I'd prefer a mostly virtual / online format if available</label>
+          </div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <i class="fa-solid fa-paper-plane"></i>&ensp;Submit My Interest
+          </button>
+          <p class="form-note">We'll never share your info. Expect a response within 48 hours.</p>
+        </form>
+        <!-- Success state -->
+        <div id="formSuccess" style="display:none; text-align:center; padding:2rem 0;">
+          <div style="font-size:3rem; margin-bottom:1rem;">&#127881;</div>
+          <h3 style="font-size:1.4rem; font-weight:700; margin-bottom:.5rem;">You're In!</h3>
+          <p style="color:var(--gray-400); font-size:.95rem; max-width:400px; margin:0 auto;">We received your info. Check your inbox — we'll follow up within 48 hours with next steps and cohort dates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-brand-logo">
+            <div class="nav-logo" style="width:36px;height:36px;border-radius:8px;font-size:.9rem;"><i class="fa-solid fa-robot"></i></div>
+            <div class="nav-wordmark" style="font-size:1.1rem;">Robo<em style="font-style:normal;color:var(--orange);">Vo</em>Tech</div>
+          </div>
+          <p>AI & Robotics Technician Certification in Walton County, FL. Building high-wage pathways where roots run deep and families thrive.</p>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Program</h4>
+            <a href="#curriculum">Curriculum</a>
+            <a href="#tech">Tech Stack</a>
+            <a href="#careers">Career Paths</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#apply">Apply Now</a>
+            <a href="mailto:info@robovotech.org">info@robovotech.org</a>
+            <a href="tel:+18505551234">(850) 555-1234</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">&copy; 2026 RoboVoTech &middot; Walton County, FL &middot; A Good Samaritan Institute Initiative</div>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="footer-social" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="footer-social" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" class="footer-social" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- AOS Library -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // ====== Init AOS ======
+    AOS.init({ duration: 700, once: true, offset: 60 });
+
+    // ====== Nav scroll effect ======
+    const nav = document.getElementById('mainNav');
+    const scrollProgress = document.getElementById('scrollProgress');
+    const backToTop = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      nav.classList.toggle('scrolled', scrollY > 40);
+      backToTop.classList.toggle('visible', scrollY > 600);
+
+      // Scroll progress bar
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+      scrollProgress.style.width = pct + '%';
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ====== Mobile menu ======
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let menuOpen = false;
+
+    hamburger.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('open', menuOpen);
+      hamburger.innerHTML = menuOpen
+        ? '<i class="fa-solid fa-xmark"></i>'
+        : '<i class="fa-solid fa-bars"></i>';
+    });
+
+    function closeMobile() {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      hamburger.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    }
+
+    // ====== Counter animation ======
+    const counters = document.querySelectorAll('.counter');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target);
+          let current = 0;
+          const step = Math.max(1, Math.floor(target / 40));
+          const interval = setInterval(() => {
+            current += step;
+            if (current >= target) { current = target; clearInterval(interval); }
+            el.textContent = current;
+          }, 35);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => counterObserver.observe(c));
+
+    // ====== Timeline accordion ======
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const wasActive = item.classList.contains('active');
+        document.querySelectorAll('.timeline-item').forEach(i => i.classList.remove('active'));
+        if (!wasActive) item.classList.add('active');
+      });
+    });
+
+    // ====== FAQ accordion ======
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+
+    // ====== Form submit ======
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      document.getElementById('interestForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
