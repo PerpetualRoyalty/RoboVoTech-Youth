@@ -590,6 +590,37 @@
       renderDetail();
     }
 
+    function matchesClientFilters(submission) {
+      const archivedMode = visibilityFilter.value || 'active';
+      const isArchived = Boolean(submission.archivedAt);
+      if (archivedMode === 'active' && isArchived) {
+        return false;
+      }
+      if (archivedMode === 'archived' && !isArchived) {
+        return false;
+      }
+
+      if (statusFilter.value && statusFilter.value !== 'all' && submission.status !== statusFilter.value) {
+        return false;
+      }
+
+      const search = searchInput.value.trim().toLowerCase();
+      if (!search) {
+        return true;
+      }
+
+      const haystack = [
+        submission.firstName,
+        submission.lastName,
+        submission.email,
+        submission.phone,
+        submission.interest,
+        submission.notes
+      ].filter(Boolean).join(' ').toLowerCase();
+
+      return haystack.includes(search);
+    }
+
     function renderDetail() {
       const submission = state.submissions.find((entry) => entry.id === state.selectedId);
 
@@ -762,9 +793,18 @@
         }
 
         state.summary = result.summary || state.summary;
-        await loadSubmissions();
-        state.selectedId = submission.id;
+        const updatedSubmission = result.submission;
+        const remaining = state.submissions.filter((entry) => entry.id !== updatedSubmission.id);
+        if (matchesClientFilters(updatedSubmission)) {
+          remaining.unshift(updatedSubmission);
+          state.selectedId = updatedSubmission.id;
+        } else {
+          state.selectedId = null;
+        }
+        state.submissions = remaining;
         setMessage('Lead updated.', 'success');
+        renderMetrics();
+        renderList();
       } catch (error) {
         detailMessage.textContent = error.message || 'Could not save the lead.';
         detailMessage.className = 'message error';
@@ -798,9 +838,18 @@
         }
 
         state.summary = result.summary || state.summary;
-        state.selectedId = null;
-        await loadSubmissions();
+        const updatedSubmission = result.submission;
+        const remaining = state.submissions.filter((entry) => entry.id !== updatedSubmission.id);
+        if (matchesClientFilters(updatedSubmission)) {
+          remaining.unshift(updatedSubmission);
+          state.selectedId = updatedSubmission.id;
+        } else {
+          state.selectedId = null;
+        }
+        state.submissions = remaining;
         setMessage(archived ? 'Lead archived.' : 'Lead restored.', 'success');
+        renderMetrics();
+        renderList();
       } catch (error) {
         setMessage(error.message || `Could not ${actionLabel} the lead.`, 'error');
       }
@@ -829,9 +878,11 @@
         }
 
         state.summary = result.summary || state.summary;
+        state.submissions = state.submissions.filter((entry) => entry.id !== submission.id);
         state.selectedId = null;
-        await loadSubmissions();
         setMessage('Lead deleted permanently.', 'success');
+        renderMetrics();
+        renderList();
       } catch (error) {
         setMessage(error.message || 'Could not delete the lead.', 'error');
       }
