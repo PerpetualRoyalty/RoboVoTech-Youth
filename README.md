@@ -1,6 +1,6 @@
 # RoboVoTech — Youth Interactive Landing Page
 
-Production-ready landing page and lightweight backend for the **AI & Robotics Technician Certification** program targeting American youth in Walton County, FL.
+Production-ready learner app and lightweight backend for the **AI & Robotics Technician Certification** program in Walton County, FL. The app now includes curriculum browsing, learner authentication, progress tracking, Stripe-backed certification checkout, and the existing admissions/admin workflows.
 
 ## Quick Start
 
@@ -12,7 +12,7 @@ node server.js
 
 Then open [http://localhost:3000](http://localhost:3000).
 
-The server hosts the landing page and captures interest-form submissions to `data/interest-submissions.json`.
+The server hosts the landing page, learner dashboard, curriculum API, authentication endpoints, certification checkout flow, and admissions lead capture.
 
 If you only want to preview the static page with no backend, you can still open `robovotech-youth.html` directly in a browser.
 
@@ -25,6 +25,38 @@ If you only want to preview the static page with no backend, you can still open 
 - Admin dashboard for triage, notes, and follow-up tracking
 - Admin-only JSON, patch, and CSV export endpoints
 - Health endpoint with aggregate lead counts
+- Learner registration and login with signed cookie sessions
+- Curriculum catalog sourced from the RoboVoTech curriculum structure
+- Learner dashboard with saved module completion state
+- Stripe checkout sessions for paid certification testing
+- Stripe webhook support for marking testing orders as paid
+
+## Learner Auth + Testing Setup
+
+Set these before starting the server if you want the full learner and checkout flow:
+
+```bash
+SESSION_SECRET=change-me \
+STRIPE_SECRET_KEY=sk_test_xxx \
+STRIPE_WEBHOOK_SECRET=whsec_xxx \
+node server.js
+```
+
+Optional pricing overrides:
+
+```bash
+CORE_CERT_TEST_FEE_CENTS=19900
+MICRO_CERT_TEST_FEE_CENTS=7900
+ADVANCED_CERT_TEST_FEE_CENTS=14900
+```
+
+Routes:
+
+- `/` — curriculum-driven landing page and learner auth
+- `/dashboard` — learner dashboard (requires sign-in)
+- `/admin` — staff admissions dashboard
+- `POST /api/certification-checkout` — create Stripe Checkout session
+- `POST /api/stripe/webhook` — mark completed Stripe orders as paid
 
 ## Admin Workflow
 
@@ -71,14 +103,11 @@ node test/interest-submissions.test.js
 
 Frontend highlights:
 
-- **Hero** — Animated counters, gradient orbs, dual CTAs
-- **Why Robotics** — Bento grid with Florida manufacturing stats
-- **12-Week Curriculum** — Interactive accordion timeline
-- **Tech Stack** — 16 industry-grade tool chips (ROS 2, YOLO11, Jetson, etc.)
-- **Career Paths** — 3-tier salary progression ($52K → $71K → $105K)
-- **Testimonials** — Horizontal-scroll student stories
-- **FAQ** — 7-item collapsible accordion
-- **Interest Form** — Real API-backed lead capture with error handling
+- **Curriculum Catalog** — Core modules, youth track, micro-credentials, advanced pathways
+- **Learner Auth** — Registration, login, signed cookie sessions, dashboard access
+- **Learner Dashboard** — Progress tracking, testing store, order history
+- **Testing Checkout** — Stripe-backed purchase flow for certification attempts
+- **Interest Form** — Existing admissions lead capture preserved
 - **Admin Dashboard** — Search, triage, notes, follow-up dates, and CSV export
 
 ## Tech

@@ -11,6 +11,14 @@
     {
       "source": "/admin/",
       "destination": "/admin.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard.html"
+    },
+    {
+      "source": "/dashboard/",
+      "destination": "/dashboard.html"
     }
   ]
 }

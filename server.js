@@ -2,6 +2,17 @@ const http = require('http');
 const fs = require('fs').promises;
 const path = require('path');
 const {
+  handleCertificationCheckout,
+  handleCurriculum,
+  handleDashboard,
+  handleLogin,
+  handleLogout,
+  handleRegister,
+  handleSession,
+  handleStripeWebhook,
+  handleUpdateProgress
+} = require('./lib/app-api');
+const {
   getRequestUrl,
   handleCreateSubmission,
   handleDeleteSubmission,
@@ -19,22 +30,14 @@ const HOST = process.env.HOST || '0.0.0.0';
 const PORT = Number.parseInt(process.env.PORT || '3000', 10);
 const LANDING_PAGE = path.join(__dirname, 'robovotech-youth.html');
 const ADMIN_PAGE = path.join(__dirname, 'admin.html');
+const DASHBOARD_PAGE = path.join(__dirname, 'dashboard.html');
 
-async function serveLandingPage(res) {
+async function servePage(res, filePath, errorMessage) {
   try {
-    const html = await fs.readFile(LANDING_PAGE, 'utf8');
+    const html = await fs.readFile(filePath, 'utf8');
     sendText(res, 200, html, 'text/html; charset=utf-8');
   } catch (error) {
-    sendJson(res, 500, { ok: false, error: 'Landing page could not be loaded.' });
-  }
-}
-
-async function serveAdminPage(res) {
-  try {
-    const html = await fs.readFile(ADMIN_PAGE, 'utf8');
-    sendText(res, 200, html, 'text/html; charset=utf-8');
-  } catch (error) {
-    sendJson(res, 500, { ok: false, error: 'Admin page could not be loaded.' });
+    sendJson(res, 500, { ok: false, error: errorMessage });
   }
 }
 
@@ -49,12 +52,17 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (req.method === 'GET' && url.pathname === '/') {
-      await serveLandingPage(res);
+      await servePage(res, LANDING_PAGE, 'Landing page could not be loaded.');
       return;
     }
 
     if (req.method === 'GET' && (url.pathname === '/admin' || url.pathname === '/admin/')) {
-      await serveAdminPage(res);
+      await servePage(res, ADMIN_PAGE, 'Admin page could not be loaded.');
+      return;
+    }
+
+    if (req.method === 'GET' && (url.pathname === '/dashboard' || url.pathname === '/dashboard/')) {
+      await servePage(res, DASHBOARD_PAGE, 'Dashboard could not be loaded.');
       return;
     }
 
@@ -75,6 +83,51 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'GET' && url.pathname === '/api/interest-submissions.csv') {
       await handleExportSubmissions(req, res);
+      return;
+    }
+
+    if (req.method === 'GET' && url.pathname === '/api/curriculum') {
+      await handleCurriculum(req, res);
+      return;
+    }
+
+    if (req.method === 'GET' && url.pathname === '/api/auth/session') {
+      await handleSession(req, res);
+      return;
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/auth/register') {
+      await handleRegister(req, res);
+      return;
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/auth/login') {
+      await handleLogin(req, res);
+      return;
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/auth/logout') {
+      await handleLogout(req, res);
+      return;
+    }
+
+    if (req.method === 'GET' && url.pathname === '/api/dashboard') {
+      await handleDashboard(req, res);
+      return;
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/progress') {
+      await handleUpdateProgress(req, res);
+      return;
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/certification-checkout') {
+      await handleCertificationCheckout(req, res);
+      return;
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/stripe/webhook') {
+      await handleStripeWebhook(req, res);
       return;
     }
 
