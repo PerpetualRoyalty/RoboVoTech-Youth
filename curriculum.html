@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoboVoTech Course Catalog</title>
+  <meta name="description" content="Browse the full RoboVoTech curriculum catalog, including lessons, labs, assessments, learner sign-in, dashboard access, and certification testing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --navy: #0f172a;
+      --navy-light: #172033;
+      --panel: rgba(15, 23, 42, 0.84);
+      --panel-strong: rgba(17, 24, 39, 0.96);
+      --border: rgba(148, 163, 184, 0.18);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --blue: #2563eb;
+      --cyan: #06b6d4;
+      --orange: #f97316;
+      --amber: #f59e0b;
+      --lime: #84cc16;
+      --rose: #fb7185;
+      --radius: 22px;
+      --radius-sm: 16px;
+      --shadow: 0 24px 55px rgba(2, 6, 23, 0.32);
+      --font-main: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-main);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 22%),
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.14), transparent 26%),
+        linear-gradient(180deg, #07101e 0%, #0f172a 100%);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    .container { width: min(1240px, calc(100% - 32px)); margin: 0 auto; }
+    .hidden { display: none !important; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7, 16, 30, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 72px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .nav-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      background: linear-gradient(135deg, var(--orange), var(--amber));
+      font-weight: 700;
+      box-shadow: 0 14px 28px rgba(249, 115, 22, 0.24);
+    }
+
+    .nav-wordmark {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+
+    .nav-wordmark em { color: var(--orange); font-style: normal; }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: .85rem 1.15rem;
+      font-weight: 600;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--orange), #ea580c);
+      box-shadow: 0 12px 26px rgba(249, 115, 22, 0.22);
+    }
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .hero {
+      padding: 64px 0 30px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 20px;
+    }
+
+    .hero-card,
+    .panel,
+    .summary-card,
+    .module-card,
+    .track-card,
+    .product-card,
+    .auth-card,
+    .message {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-card {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      right: -60px;
+      bottom: -90px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.22), transparent 68%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 0 8px rgba(132, 204, 22, 0.14);
+    }
+
+    h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .hero-card p,
+    .section-desc,
+    .muted {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-top: 1.4rem;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-content: start;
+    }
+
+    .summary-card {
+      padding: 18px;
+      border-radius: var(--radius-sm);
+    }
+
+    .summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: .78rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-top: .6rem;
+      font-size: 2rem;
+      font-family: var(--font-mono);
+    }
+
+    section {
+      padding: 24px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      letter-spacing: -.03em;
+    }
+
+    .panel {
+      padding: 24px;
+    }
+
+    .module-grid,
+    .track-grid,
+    .product-grid,
+    .auth-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .module-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .track-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .auth-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .module-card,
+    .track-card,
+    .product-card,
+    .auth-card {
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      background: rgba(15, 23, 42, 0.74);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-bottom: .9rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: .42rem .72rem;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.1);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      color: var(--muted);
+      font-size: .74rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .module-card h3,
+    .track-card h3,
+    .product-card h3,
+    .auth-card h3 {
+      margin: 0 0 .65rem;
+      font-size: 1.12rem;
+    }
+
+    details.catalog-group,
+    details.catalog-item {
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      background: rgba(15, 23, 42, 0.56);
+      padding: .8rem .9rem;
+    }
+
+    details.catalog-group + details.catalog-group,
+    details.catalog-item + details.catalog-item {
+      margin-top: .65rem;
+    }
+
+    details summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .8rem;
+      font-weight: 600;
+    }
+
+    details summary::-webkit-details-marker { display: none; }
+
+    .item-list {
+      display: grid;
+      gap: .6rem;
+      margin-top: .8rem;
+    }
+
+    .item-body {
+      margin-top: .7rem;
+      display: grid;
+      gap: .55rem;
+    }
+
+    .item-title {
+      font-size: .95rem;
+      font-weight: 600;
+    }
+
+    .item-submeta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .price {
+      font-size: 2rem;
+      font-family: var(--font-mono);
+      margin-bottom: .55rem;
+    }
+
+    .message {
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+
+    .message.success {
+      background: rgba(132, 204, 22, 0.12);
+      border-color: rgba(132, 204, 22, 0.26);
+    }
+
+    .message.error {
+      background: rgba(251, 113, 133, 0.12);
+      border-color: rgba(251, 113, 133, 0.26);
+    }
+
+    .field {
+      display: grid;
+      gap: .45rem;
+      margin-bottom: .9rem;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: .84rem;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: .85rem .95rem;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.82);
+      color: var(--text);
+      outline: none;
+    }
+
+    input:focus {
+      border-color: rgba(37, 99, 235, 0.7);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    }
+
+    .footer {
+      padding: 30px 0 50px;
+      color: var(--muted);
+    }
+
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .module-grid,
+      .track-grid,
+      .product-grid,
+      .auth-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav-inner,
+      .section-head,
+      .footer-bar {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="nav-brand">
+        <div class="nav-logo"><i class="fa-solid fa-robot"></i></div>
+        <div class="nav-wordmark">Robo<em>Vo</em>Tech</div>
+      </a>
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="/">Back To Home</a>
+        <a class="btn btn-secondary hidden" id="dashboardLink" href="/dashboard">Dashboard</a>
+        <button class="btn btn-primary hidden" id="logoutBtn" type="button">Log Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <section class="hero-card">
+        <div class="eyebrow">Separate Curriculum Catalog</div>
+        <h1>Full course inventory from the curriculum folder on this machine.</h1>
+        <p id="heroCopy">Loading the RoboVoTech core modules, labs, assessments, and instructor guides from the local curriculum repository.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#catalog"><i class="fa-solid fa-book-open"></i>Browse Modules</a>
+          <a class="btn btn-secondary" href="#learner-access"><i class="fa-solid fa-user"></i>Learner Access</a>
+        </div>
+      </section>
+      <aside class="summary-grid" id="summaryGrid">
+        <article class="summary-card"><span>Core modules</span><strong>7</strong></article>
+        <article class="summary-card"><span>Lessons</span><strong>0</strong></article>
+        <article class="summary-card"><span>Labs</span><strong>0</strong></article>
+        <article class="summary-card"><span>Assessments</span><strong>0</strong></article>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div id="pageMessage" class="message hidden"></div>
+    </div>
+
+    <section id="catalog">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Core Certification</div>
+            <h2>Modules, lessons, labs, assessments, and instructor guides</h2>
+          </div>
+          <p class="section-desc">Each module below is populated from the local curriculum markdown files. Expand a module to inspect its actual course components.</p>
+        </div>
+        <div class="module-grid" id="moduleGrid"></div>
+      </div>
+    </section>
+
+    <section id="tracks">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Additional Pathways</div>
+            <h2>Youth track, micro-credentials, advanced pathways, and shared resources</h2>
+          </div>
+          <p class="section-desc">The catalog also carries the youth pipeline, stackable credentials, advanced follow-on programs, and curriculum support resources.</p>
+        </div>
+        <div class="track-grid" id="trackGrid"></div>
+      </div>
+    </section>
+
+    <section id="testing">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Certification Testing</div>
+            <h2>Free courses. Paid certification testing.</h2>
+          </div>
+          <p class="section-desc">Learning content remains free. Testing fees are collected separately through the existing learner account and Stripe checkout flow.</p>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <section id="learner-access">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Learner Access</div>
+            <h2>Sign in or create an account to use the dashboard</h2>
+          </div>
+          <p class="section-desc">Dashboard access and certification purchases live here on the catalog side, while the homepage keeps the original program marketing layout.</p>
+        </div>
+        <div class="auth-grid">
+          <section class="auth-card">
+            <h3>Create Learner Account</h3>
+            <p class="muted">Use a learner account to save progress and buy testing when ready.</p>
+            <form id="registerForm">
+              <div class="field">
+                <label for="registerFirstName">First Name</label>
+                <input id="registerFirstName" name="firstName" required>
+              </div>
+              <div class="field">
+                <label for="registerLastName">Last Name</label>
+                <input id="registerLastName" name="lastName" required>
+              </div>
+              <div class="field">
+                <label for="registerEmail">Email</label>
+                <input id="registerEmail" name="email" type="email" required>
+              </div>
+              <div class="field">
+                <label for="registerPassword">Password</label>
+                <input id="registerPassword" name="password" type="password" minlength="8" required>
+              </div>
+              <button class="btn btn-primary" type="submit">Create Free Account</button>
+            </form>
+          </section>
+          <section class="auth-card">
+            <h3>Sign In</h3>
+            <p class="muted">If you already have a learner account, open your dashboard from here.</p>
+            <form id="loginForm">
+              <div class="field">
+                <label for="loginEmail">Email</label>
+                <input id="loginEmail" name="email" type="email" required>
+              </div>
+              <div class="field">
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" name="password" type="password" required>
+              </div>
+              <button class="btn btn-secondary" type="submit">Sign In</button>
+            </form>
+            <div class="panel hidden" id="sessionPanel" style="margin-top:16px;">
+              <div class="pill">Signed In</div>
+              <h3 id="sessionName" style="margin-top:12px;"></h3>
+              <p class="muted" id="sessionEmail"></p>
+              <a class="btn btn-primary" href="/dashboard">Open Learner Dashboard</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bar">
+      <div>Curriculum content is loaded from `/Users/dougliles/Documents/RoboVoTech/robovotech-curriculum`.</div>
+      <div><a href="/">Home</a> · <a href="/dashboard">Dashboard</a> · <a href="/admin">Admin</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const state = {
+      curriculum: null,
+      products: [],
+      user: null
+    };
+
+    const pageMessage = document.getElementById('pageMessage');
+    const dashboardLink = document.getElementById('dashboardLink');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const sessionPanel = document.getElementById('sessionPanel');
+    const sessionName = document.getElementById('sessionName');
+    const sessionEmail = document.getElementById('sessionEmail');
+
+    document.getElementById('registerForm').addEventListener('submit', onRegister);
+    document.getElementById('loginForm').addEventListener('submit', onLogin);
+    logoutBtn.addEventListener('click', onLogout);
+
+    init();
+
+    async function init() {
+      const response = await fetch('/api/curriculum', {
+        credentials: 'same-origin'
+      });
+      const payload = await response.json();
+
+      if (!payload.ok) {
+        showMessage(payload.error || 'Curriculum could not be loaded.', 'error');
+        return;
+      }
+
+      state.curriculum = payload.curriculum;
+      state.products = payload.products || [];
+      state.user = payload.user || null;
+
+      renderPage();
+    }
+
+    function renderPage() {
+      const curriculum = state.curriculum;
+      const counts = curriculum.counts || {};
+      const overview = curriculum.overview || {};
+
+      document.getElementById('heroCopy').textContent =
+        `${overview.title} is available here as a separate curriculum catalog while the original homepage remains intact. ${overview.pricingNote}`;
+
+      document.getElementById('summaryGrid').innerHTML = [
+        ['Core modules', counts.coreModules || 0],
+        ['Lessons', counts.lessons || 0],
+        ['Labs', counts.labs || 0],
+        ['Assessments', counts.assessments || 0]
+      ].map((card) => `
+        <article class="summary-card">
+          <span>${escapeHtml(card[0])}</span>
+          <strong>${escapeHtml(String(card[1]))}</strong>
+        </article>
+      `).join('');
+
+      document.getElementById('moduleGrid').innerHTML = curriculum.coreCertification.modules.map((module) => `
+        <article class="module-card">
+          <div class="meta-row">
+            <span class="pill">${escapeHtml(module.schedule || '')}</span>
+            <span class="pill">${escapeHtml(String(module.hours || 0))} hrs</span>
+            <span class="pill">${escapeHtml(String(module.counts.lessons || 0))} lessons</span>
+            <span class="pill">${escapeHtml(String(module.counts.labs || 0))} labs</span>
+            <span class="pill">${escapeHtml(String(module.counts.assessments || 0))} assessments</span>
+          </div>
+          <h3>${escapeHtml(module.title)}</h3>
+          <p class="muted">${escapeHtml(module.delivery || '')}</p>
+          ${renderModuleGroups(module)}
+        </article>
+      `).join('');
+
+      document.getElementById('trackGrid').innerHTML = [
+        renderYouthTrack(curriculum.youthTrack),
+        renderMicroCredentials(curriculum.microCredentials),
+        renderAdvancedPathways(curriculum.advancedPathways),
+        renderSharedResources(curriculum.sharedResources)
+      ].join('');
+
+      document.getElementById('productGrid').innerHTML = state.products.map((product) => `
+        <article class="product-card">
+          <div class="meta-row">
+            <span class="pill">${escapeHtml(product.category)}</span>
+            <span class="pill">${escapeHtml(String(product.hours || 0))} hrs aligned</span>
+          </div>
+          <h3>${escapeHtml(product.title)}</h3>
+          <div class="price">$${escapeHtml(product.feeUsd.toFixed(2))}</div>
+          <p class="muted">${escapeHtml(product.description || '')}</p>
+          <button class="btn ${state.user ? 'btn-primary' : 'btn-secondary'}" type="button" data-product-id="${escapeHtml(product.id)}">
+            ${state.user ? 'Buy Testing Slot' : 'Sign In To Purchase'}
+          </button>
+        </article>
+      `).join('');
+
+      document.querySelectorAll('[data-product-id]').forEach((button) => {
+        button.addEventListener('click', () => beginCheckout(button.dataset.productId));
+      });
+
+      renderSessionState();
+    }
+
+    function renderModuleGroups(module) {
+      const groups = [
+        ['Lessons', module.lessons || []],
+        ['Labs', module.labs || []],
+        ['Assessments', module.assessments || []],
+        ['Instructor Guides', module.instructorGuides || []]
+      ].filter((group) => group[1].length);
+
+      return groups.map((group) => `
+        <details class="catalog-group">
+          <summary>
+            <span>${escapeHtml(group[0])}</span>
+            <span class="pill">${escapeHtml(String(group[1].length))} items</span>
+          </summary>
+          <div class="item-list">
+            ${group[1].map((item) => `
+              <details class="catalog-item">
+                <summary>
+                  <span class="item-title">${escapeHtml(item.code ? `${item.code} — ${item.title}` : item.title)}</span>
+                  <span class="pill">${escapeHtml(item.duration || item.week || item.kind)}</span>
+                </summary>
+                <div class="item-body">
+                  <div class="item-submeta">
+                    ${item.duration ? `<span>${escapeHtml(item.duration)}</span>` : ''}
+                    ${item.delivery ? `<span>${escapeHtml(item.delivery)}</span>` : ''}
+                    ${item.week ? `<span>Week ${escapeHtml(item.week)}</span>` : ''}
+                  </div>
+                  <p class="muted">${escapeHtml(item.excerpt || 'Content loaded from the local curriculum markdown file.')}</p>
+                </div>
+              </details>
+            `).join('')}
+          </div>
+        </details>
+      `).join('');
+    }
+
+    function renderYouthTrack(track) {
+      return `
+        <article class="track-card">
+          <div class="meta-row">
+            <span class="pill">${escapeHtml(track.duration || '')}</span>
+            <span class="pill">${escapeHtml(String(track.totalHours || 0))} hrs</span>
+          </div>
+          <h3>${escapeHtml(track.title)}</h3>
+          <p class="muted">${escapeHtml(track.credential || '')}</p>
+          ${track.modules.map((module) => `
+            <details class="catalog-item">
+              <summary>
+                <span>${escapeHtml(module.code)} — ${escapeHtml(module.title)}</span>
+                <span class="pill">${escapeHtml(String(module.hours || 0))} hrs</span>
+              </summary>
+              <div class="item-body">
+                <p class="muted">Scheduled for weeks ${escapeHtml(module.weeks || '')}.</p>
+              </div>
+            </details>
+          `).join('')}
+        </article>
+      `;
+    }
+
+    function renderMicroCredentials(credentials) {
+      return `
+        <article class="track-card">
+          <div class="meta-row">
+            <span class="pill">${escapeHtml(String(credentials.length))} programs</span>
+          </div>
+          <h3>Micro-Credentials</h3>
+          <p class="muted">Short standalone credentials that stack toward the broader pathway.</p>
+          ${credentials.map((credential) => `
+            <details class="catalog-item">
+              <summary>
+                <span>${escapeHtml(credential.code)} — ${escapeHtml(credential.title)}</span>
+                <span class="pill">${escapeHtml(String(credential.hours || 0))} hrs</span>
+              </summary>
+              <div class="item-body">
+                <p class="muted">${escapeHtml(credential.value || '')}</p>
+                <div class="item-submeta">
+                  ${credential.composedOf ? `<span>${escapeHtml(credential.composedOf)}</span>` : ''}
+                </div>
+              </div>
+            </details>
+          `).join('')}
+        </article>
+      `;
+    }
+
+    function renderAdvancedPathways(pathways) {
+      return `
+        <article class="track-card">
+          <div class="meta-row">
+            <span class="pill">${escapeHtml(String(pathways.length))} pathways</span>
+          </div>
+          <h3>Advanced Pathways</h3>
+          <p class="muted">Post-certification tracks for higher-skill robotics and automation roles.</p>
+          ${pathways.map((pathway) => `
+            <details class="catalog-item">
+              <summary>
+                <span>${escapeHtml(pathway.code)} — ${escapeHtml(pathway.title)}</span>
+                <span class="pill">${escapeHtml(String(pathway.totalHours || 0))} hrs</span>
+              </summary>
+              <div class="item-body">
+                <p class="muted">Target salary: ${escapeHtml(pathway.salaryRange || 'Not specified')}.</p>
+                <div class="item-submeta">
+                  ${pathway.modules.map((module) => `<span>${escapeHtml(module.code)} ${escapeHtml(module.title)}</span>`).join('')}
+                </div>
+              </div>
+            </details>
+          `).join('')}
+        </article>
+      `;
+    }
+
+    function renderSharedResources(resources) {
+      return `
+        <article class="track-card">
+          <div class="meta-row">
+            <span class="pill">${escapeHtml(String(resources.length))} resource groups</span>
+          </div>
+          <h3>Shared Resources</h3>
+          <p class="muted">Crosswalks, templates, and instructor-facing support materials packaged alongside the course content.</p>
+          ${resources.map((group) => `
+            <details class="catalog-item">
+              <summary>
+                <span>${escapeHtml(group.title)}</span>
+                <span class="pill">${escapeHtml(String(group.items.length || 0))} files</span>
+              </summary>
+              <div class="item-body">
+                ${group.items.length
+                  ? group.items.map((item) => `<p class="muted">${escapeHtml(item.heading || item.title)}</p>`).join('')
+                  : '<p class="muted">This resource group is present in the curriculum tree but currently has no markdown files to render.</p>'}
+              </div>
+            </details>
+          `).join('')}
+        </article>
+      `;
+    }
+
+    function renderSessionState() {
+      const loggedIn = Boolean(state.user);
+      dashboardLink.classList.toggle('hidden', !loggedIn);
+      logoutBtn.classList.toggle('hidden', !loggedIn);
+      sessionPanel.classList.toggle('hidden', !loggedIn);
+
+      if (loggedIn) {
+        sessionName.textContent = `${state.user.firstName} ${state.user.lastName}`;
+        sessionEmail.textContent = state.user.email;
+      }
+    }
+
+    async function onRegister(event) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: form.firstName.value,
+          lastName: form.lastName.value,
+          email: form.email.value,
+          password: form.password.value
+        })
+      });
+      const payload = await response.json();
+
+      if (!response.ok) {
+        showMessage(formatError(payload), 'error');
+        return;
+      }
+
+      form.reset();
+      state.user = payload.user;
+      showMessage('Learner account created. Dashboard access is now available.', 'success');
+      renderPage();
+    }
+
+    async function onLogin(event) {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: form.email.value,
+          password: form.password.value
+        })
+      });
+      const payload = await response.json();
+
+      if (!response.ok) {
+        showMessage(formatError(payload), 'error');
+        return;
+      }
+
+      form.reset();
+      state.user = payload.user;
+      showMessage('Signed in. You can open the learner dashboard or purchase certification testing.', 'success');
+      renderPage();
+    }
+
+    async function onLogout() {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'same-origin'
+      });
+
+      state.user = null;
+      showMessage('You have been logged out.', 'success');
+      renderPage();
+    }
+
+    async function beginCheckout(productId) {
+      if (!state.user) {
+        showMessage('Sign in first so certification testing can be tied to your learner account.', 'error');
+        document.getElementById('learner-access').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      const response = await fetch('/api/certification-checkout', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId })
+      });
+      const payload = await response.json();
+
+      if (!response.ok) {
+        showMessage(formatError(payload), 'error');
+        return;
+      }
+
+      window.location.href = payload.checkoutUrl;
+    }
+
+    function formatError(payload) {
+      if (!payload) return 'Something went wrong.';
+      if (Array.isArray(payload.details) && payload.details.length) return payload.details.join(' ');
+      return payload.error || 'Something went wrong.';
+    }
+
+    function showMessage(text, type) {
+      pageMessage.textContent = text;
+      pageMessage.className = `message ${type}`;
+      pageMessage.classList.remove('hidden');
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+  </script>
+</body>
+</html>

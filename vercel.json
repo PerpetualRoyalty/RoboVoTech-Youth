@@ -19,6 +19,14 @@
     {
       "source": "/dashboard/",
       "destination": "/dashboard.html"
+    },
+    {
+      "source": "/curriculum",
+      "destination": "/curriculum.html"
+    },
+    {
+      "source": "/curriculum/",
+      "destination": "/curriculum.html"
     }
   ]
 }

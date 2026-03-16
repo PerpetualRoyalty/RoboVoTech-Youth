@@ -30,6 +30,7 @@ const HOST = process.env.HOST || '0.0.0.0';
 const PORT = Number.parseInt(process.env.PORT || '3000', 10);
 const LANDING_PAGE = path.join(__dirname, 'robovotech-youth.html');
 const ADMIN_PAGE = path.join(__dirname, 'admin.html');
+const CURRICULUM_PAGE = path.join(__dirname, 'curriculum.html');
 const DASHBOARD_PAGE = path.join(__dirname, 'dashboard.html');
 
 async function servePage(res, filePath, errorMessage) {
@@ -63,6 +64,11 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'GET' && (url.pathname === '/dashboard' || url.pathname === '/dashboard/')) {
       await servePage(res, DASHBOARD_PAGE, 'Dashboard could not be loaded.');
+      return;
+    }
+
+    if (req.method === 'GET' && (url.pathname === '/curriculum' || url.pathname === '/curriculum/')) {
+      await servePage(res, CURRICULUM_PAGE, 'Curriculum catalog could not be loaded.');
       return;
     }
 

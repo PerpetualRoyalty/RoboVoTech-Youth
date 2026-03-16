@@ -56,6 +56,10 @@ runTest('loadCurriculum returns the integrated track structure', async () => {
   assert.equal(curriculum.coreCertification.modules.length >= 7, true);
   assert.equal(curriculum.microCredentials.length >= 5, true);
   assert.equal(curriculum.advancedPathways.length >= 2, true);
+  assert.equal(curriculum.counts.lessons > 0, true);
+  assert.equal(curriculum.counts.labs > 0, true);
+  assert.equal(curriculum.counts.assessments > 0, true);
+  assert.equal(curriculum.coreCertification.modules.every((module) => module.lessons.length > 0), true);
 });
 
 runTest('buildCertificationProducts creates paid testing options', async () => {
